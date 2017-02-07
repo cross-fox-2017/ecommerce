@@ -2,15 +2,16 @@ $(document).ready(function(){
   listAllItem()
 })
 function addToCart(item, price, id){
-  let qty = 1
+  let details = {name: item, id: id, price: price, qty: 1}
   if(localStorage.getItem(item)){
-    prevQty = localStorage.getItem(item)
-    newQty = Number(prevQty) + 1
-    localStorage.setItem(item, newQty)
+    let prev = localStorage.getItem(item)
+    prev = JSON.parse(prev)
+    prev.qty +=1;
+    localStorage.setItem(item, JSON.stringify(prev))
   } else {
-    localStorage.setItem(item, qty);
+    localStorage.setItem(item, JSON.stringify(details));
   }
-  refreshCart()
+  // refreshCart()
 }
 function objCart() {
   let cart = []
@@ -46,7 +47,7 @@ function listAllItem(){
               <p>Price: ${item.price}</p>
               <button type="button" name="button" class="btn btn-success cartlist" id="${item.name}">Add to Cart</button>
               <input type="hidden" id="price${item.name}" value="${item.price}">
-              <input type="hidden" id="id${item.name}" value="${item.id}">
+              <input type="hidden" id="id${item.name}" value="${item._id}">
             </div>
           </div>`
         )
