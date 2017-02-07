@@ -11,14 +11,17 @@ function addToCart(item, price, id){
   } else {
     localStorage.setItem(item, JSON.stringify(details));
   }
-  // refreshCart()
+  refreshCart()
 }
 function objCart() {
   let cart = []
   for (var item in localStorage) {
-    cart.push({name: item, qty: localStorage[item]});
+    if (typeof(localStorage[item]) == 'string') {
+      let data = JSON.parse(localStorage[item])
+      cart.push(data);
+    }
   }
-  return cart.slice(0, localStorage.length)
+  return cart
 }
 function refreshCart() {
   let cart = objCart()
@@ -28,9 +31,12 @@ function refreshCart() {
         `<tr>
           <td>${item.name}</td>
           <td>${item.qty}</td>
+          <td>Rp ${Number(item.price*item.qty)}</td>
         </tr>`
     )
   })
+  $('#totalPrice').empty()
+  $('#totalPrice').append(`<p>Total: </p>`)
 }
 function listAllItem(){
   $.ajax({
