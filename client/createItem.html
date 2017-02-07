@@ -17,9 +17,37 @@
     <div class="row center">
       <h3>Create Item</h3>
     </div>
+
     <div class="row">
-      <!-- from -->
+      <div class="input-field col s12">
+        <input id="input-item-name" type="text" class="validate" required>
+        <label class="active" for="item-name">Item Name</label>
+      </div>
     </div>
+
+     <div class="row">
+       <div class="input-field col s12">
+         <textarea id="input-item-description" class="materialize-textarea" required></textarea>
+         <label for="textarea1">Item Description</label>
+       </div>
+     </div>
+
+     <div class="row">
+       <!-- price -->
+       <div class="input-field col s6">
+         <input id="input-item-price" type="number" class="validate" required>
+         <label class="active" for="item-price">Price</label>
+       </div>
+       <!-- stock -->
+       <div class="input-field col s6">
+         <input id="input-item-stock" type="number" class="validate" required>
+         <label class="active" for="item-stock">Stock</label>
+       </div>
+     </div>
+
+     <div class="center">
+       <a class="waves-effect waves-light btn right" id="btn-create-item" onclick="createItem()">Create Item</a>
+     </div>
     <!-- form create item -->
 
     <!-- list item -->
@@ -38,12 +66,6 @@
       </thead>
 
       <tbody id="list-item-body">
-        <tr>
-          <td>Alvin</td>
-          <td>Eclair</td>
-          <td>$0.87</td>
-          <td>$0.87</td>
-        </tr>
     </table>
     <!-- list item -->
   </div>
@@ -56,18 +78,44 @@
     <!-- script -->
     <script type="text/javascript">
     $(document).ready(function(){
+      console.log("masuk");
       /* get all item */
       $.ajax({
-        url: "http://localhost:3000/api/item",
+        url: "http://localhost:3000/api/items",
         type: "GET",
-        data: {
-        },
         success: function( result ) {
+          console.log(result);
+          var tmp = '';
 
+          for (var i = 0; i < result.length; i++) {
+            console.log(result[i].itemName);
+            tmp += `<tr><td>${result[i].itemName}</td><td>${result[i].description}</td><td>${result[i].price}</td><td>${result[i].stock}</td></tr>`
+          }
+
+          $('#list-item-body').append(tmp);
         }
       });
       /* get all item */
     })
+
+    function createItem(){
+      /* create item */
+      $.ajax({
+        url: "http://localhost:3000/api/items",
+        type: "POST",
+        data:{
+          itemName : $('#input-item-name').val(),
+          description : $('#input-item-description').val(),
+          price : $('#input-item-price').val(),
+          stock : $('#input-item-stock').val()
+        },
+        success: function( result ) {
+          Materialize.toast('Item successfully create', 4000)
+          $('#list-item-body').prepend(`<tr><td>${result.itemName}</td><td>${result.description}</td><td>${result.price}</td><td>${result.stock}</td></tr>`);
+        }
+      });
+      /* create item */
+    }
 
 
     </script>

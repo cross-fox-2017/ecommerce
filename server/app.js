@@ -10,7 +10,7 @@ const cors = require('cors')
 var index = require('./routes/index')
 var users = require('./routes/users')
 var customers = require('./routes/customers')
-var books = require('./routes/books')
+var items = require('./routes/items')
 var transactions = require('./routes/transactions')
 
 var app = express()
@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', index)
 app.use('/users', users)
 app.use('/api/customers', customers)
-app.use('/api/books', books)
+app.use('/api/items', items)
 app.use('/api/transactions', transactions)
 
 // catch 404 and forward to error handler

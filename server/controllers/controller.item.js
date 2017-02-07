@@ -1,4 +1,4 @@
-const modelItem = require('../models/model.book')
+const modelItem = require('../models/model.item')
 
 var controllerItem = {
   /* create new book */
@@ -19,39 +19,39 @@ var controllerItem = {
     })
   },
   /* get All Book */
-  getAllBook: function (req, res, next) {
-    modelBook.find({}, function (err, data) {
+  getAllItem: function (req, res, next) {
+    modelItem.find({}, function (err, data) {
       res.json(data)
     })
   },
   /* find one book */
-  getOneBook: function (req, res, next) {
-    modelBook.find({isbn: req.params.isbn}, function (err, data) {
+  getOneItem: function (req, res, next) {
+    modelItem.find({isbn: req.params.itemid}, function (err, data) {
       res.json(data)
     })
   },
   /* edit book */
-  editOneBook: function (req, res, next) {
-    modelBook.findOneAndUpdate({ isbn: req.params.isbn}, {
-      title: req.body.title,
-      author: req.body.author,
-      category: req.body.category,
+  editOneItem: function (req, res, next) {
+    modelItem.findOneAndUpdate({ isbn: req.params.itemid}, {
+      itemName: req.body.itemName,
+      description: req.body.description,
+      price: req.body.price,
       stock: req.body.stock
     }, {
       new: true
     }, function (err, data) {
       if (err) throw err
       // we have the updated book returned to us
-      res.json('data has been updated : ' + data)
+      res.json(data)
     })
   },
   /* delete book */
-  deleteOneBook: function (req, res, next) {
-    modelBook.findOneAndRemove({ isbn: req.params.isbn }, function (err, data) {
+  deleteOneItem: function (req, res, next) {
+    modelItem.findOneAndRemove({ isbn: req.params.itemid }, function (err, data) {
       if (err) throw err
-      res.json('book with isbn : ' + data.isbn + 'has been deleted')
+      res.json(data)
     })
   }
 }
 
-module.exports = controllerBook
+module.exports = controllerItem
