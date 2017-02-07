@@ -11,6 +11,7 @@
       margin-bottom: 10px;
     }
     .box-list-item{
+      height: 500px;
     }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -22,43 +23,35 @@
     <nav class="orange lighten-1">
       <div class="container">
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo">Logo</a>
+          <a href="http://127.0.0.1:8080/registerUser.html" class="brand-logo">Logo</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="http://127.0.0.1:8080/createItem.html">Item</a></li>
+            <li>
+              <a class='dropdown-button btn' href='#' data-activates='drop-cart'>Cart</a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
     <!-- navbar -->
 
+    <!-- cart -->
+    <ul id='drop-cart' class='dropdown-content'>
+      <li><a href="#!">Item 1</a></li>
+
+    </ul>
+    <!-- cart -->
+
     <div class="container">
 
-      <!-- customer info -->
-      <h6 id="customer-id"></h6>
-      <h6 id="customer-name"></h6>
+    <!-- customer info -->
+    <h4>Profile Information</h4>
+    <h6>Customer ID : <div id="customer-id" class="blue-text"></div></h6>
+    <h6>Customer Name : <div id="customer-name" class="blue-text"></div></h6>
 
-      <!-- show all item -->
-      <div class="row" id="list-items-home">
-
-        <!-- <div class="col s3" >
-          <div class="z-depth-2">
-            <img src="http://images.clipartpanda.com/item-clipart-new_item_light_red.png" alt="" class="circle responsive-img">
-            <div class="center">
-              <div class="" id="list-item-description">
-                <b>GREATE ITEM</b>
-              </div>
-              <div class="" id="list-item-price">
-                <p>PRICE : Rp 200.000,- </p>
-              </div>
-              <div class="" id="list-item-price">
-                <p>STOCK : 20</p>
-              </div>
-              <a class="btn-add-cart waves-effect waves-light btn" id="" onclick="register()">add to cart</a>
-            </div>
-          </div>
-        </div> -->
-
-      </div>
+    <!-- show all item -->
+    <div class="row" id="list-items-home">
+    </div>
 
     </div> <!-- container -->
 
@@ -70,18 +63,17 @@
     <script type="text/javascript">
     /* ready */
     $(document).ready(function(){
+
       /* get all item */
       $.ajax({
         url: "http://localhost:3000/api/items",
         type: "GET",
         success: function( result ) {
-          console.log(result);
           var tmp = '';
-          console.log(result);
           for (var i = 0; i < result.length; i++) {
             tmp +=
             `
-            <div class="col s3 box-list-item" >
+            <div class="box-list-item col s3">
               <div class="z-depth-2">
                 <img src="http://images.clipartpanda.com/item-clipart-new_item_light_red.png" alt="" class="circle responsive-img">
                 <div class="center">
@@ -97,7 +89,7 @@
                   <div class="" id="list-item-price">
                     <p>STOCK : ${result[i].stock}</p>
                   </div>
-                  <a class="btn-add-cart waves-effect waves-light btn" id="" onclick="register()">add to cart</a>
+                  <button class="btn-add-cart waves-effect waves-light btn" onclick="addToCart('${result[i]._id}')">add to cart</button>
                 </div>
               </div>
             </div>
@@ -106,16 +98,17 @@
           $('#list-items-home').append(tmp);
         }
       });
-      /* get all item */
-    })
-    /* ready */
+    }) /* ready */
+
+    document.getElementById("customer-id").innerHTML = localStorage.getItem("customerid");
+    document.getElementById("customer-name").innerHTML = localStorage.getItem("customerName");
+
+    var hallo = ["ada"]
+    function addToCart(itemid){
+      hallo.push(" ada")
+      alert(hallo)
+    }
+
     </script>
   </body>
 </html>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    document.getElementById("customer-id").innerHTML = localStorage.getItem("customerid");
-    document.getElementById("customer-name").innerHTML = localStorage.getItem("customerName");
-  })
-</script>
