@@ -6,5 +6,6 @@ var itemController = require('../controller/itemController.js')
 
 router.post('/', itemController.create);
 router.get('/', itemController.findAll);
+router.put('/', itemController.updateStock);
 
 module.exports = router

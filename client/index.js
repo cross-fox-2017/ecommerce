@@ -45,6 +45,7 @@ function listAllItem(){
     type: 'GET',
     url: 'http://localhost:3000/api/items',
     success: function(data){
+      $('#itemlist').empty()
       data.forEach(function(item){
         $('#itemlist').append(
           `<div class="col-xs-4">
@@ -69,18 +70,21 @@ function listAllItem(){
   })
 }
 function checkout() {
-  let cart = objCart()
+  let cart = JSON.stringify(objCart())
   $.ajax({
-    type: 'POST',
-    url: 'http://localhost:3000/api/checkout',
+    type: 'PUT',
+    url: 'http://localhost:3000/api/items',
     data: {cartItem: cart},
     dataType: 'json',
-    success: function(status) {
-      $('#endCheckout').prepend(`<p>${status}</p>`)
+    success: function() {
+      $('#cartItem').empty()
+      $('#totalPrice').empty()
     },
     fail: function(err){
       console.log(err);
     }
+  }).done(function(){
+    listAllItem()
   })
 }
 function addlistener(){
@@ -93,6 +97,6 @@ function addlistener(){
   $('#mycart').on('click', '.btn.btn-success.btn-lg.checkout', function(){
     checkout()
     localStorage.clear();
-    alert('Buy Items Success');
+    alert('Items Will be Arrived in Your Place in a Hour');
   })
 }

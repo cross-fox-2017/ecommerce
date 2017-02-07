@@ -23,6 +23,20 @@ let itemController = {
       if (err) throw err;
       res.json(items)
     })
+  },
+  updateStock: function(req, res) {
+    let data = JSON.parse(req.body.cartItem);
+    data.forEach(function(item){
+      items.findOne({_id: item.id}, function(err, data){
+        let prev = data.stock
+        let update = prev - item.qty
+        data.stock = update
+        data.save(function(err) {
+          if(err) throw err;
+        })
+      })
+    })
+    res.send({msg: 'berhasil'})
   }
 }
 module.exports = itemController
