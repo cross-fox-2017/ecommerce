@@ -25,7 +25,9 @@ function objCart() {
 }
 function refreshCart() {
   let cart = objCart()
+  let total = 0
   $('#cartItem').empty()
+  $('#totalPrice').empty()
   cart.forEach(function(item){
     $('#cartItem').append(
         `<tr>
@@ -34,9 +36,9 @@ function refreshCart() {
           <td>Rp ${Number(item.price*item.qty)}</td>
         </tr>`
     )
+    total += Number(item.price*item.qty)
   })
-  $('#totalPrice').empty()
-  $('#totalPrice').append(`<p>Total: </p>`)
+  $('#totalPrice').append(`<h3>Total: ${total}</h3>`)
 }
 function listAllItem(){
   $.ajax({
@@ -51,9 +53,9 @@ function listAllItem(){
               <img src=${item.picture}>
               <p>Stock: ${item.stock}</p>
               <p>Price: ${item.price}</p>
-              <button type="button" name="button" class="btn btn-success cartlist" id="${item.name}">Add to Cart</button>
-              <input type="hidden" id="price${item.name}" value="${item.price}">
-              <input type="hidden" id="id${item.name}" value="${item._id}">
+              <button type="button" name="button" class="btn btn-success cartlist" id="${item._id}">Add to Cart</button>
+              <input type="hidden" id="price${item._id}" value="${item.price}">
+              <input type="hidden" id="name${item._id}" value="${item.name}">
             </div>
           </div>`
         )
@@ -84,9 +86,9 @@ function checkout() {
 function addlistener(){
   $('#itemlist').on('click', '.btn.cartlist', function(){
     let price = $(`#price${this.id}`).val()
-    let id = $(`#id${this.id}`).val()
-    addToCart(this.id, price, id)
-    alert('Added To Cart '+this.id);
+    let name = $(`#name${this.id}`).val()
+    addToCart(name, price, this.id)
+    alert('Added To Cart '+name);
   })
   $('#mycart').on('click', '.btn.btn-success.btn-lg.checkout', function(){
     checkout()
