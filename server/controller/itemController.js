@@ -6,7 +6,8 @@ let itemController = {
     let data = {
       name : req.body.name,
       picture : req.body.picture,
-      stock: req.body.stock
+      stock: req.body.stock,
+      price: req.body.price
     }
     let newitems = items(data)
     newitems.save(function(err){
