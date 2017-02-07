@@ -1,8 +1,8 @@
-var modelsCustomer = require('../models/models.customers')
+var modelsCustomers = require('../models/models.customers')
 
 var Customers = {
     registerCustomers: function(req, res, next) {
-        var saveCustomers = new modelsCustomer({
+        var saveCustomers = new modelsCustomers({
             name: req.body.name,
             address: req.body.address,
             phone: req.body.phone

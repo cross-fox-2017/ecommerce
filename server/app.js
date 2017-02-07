@@ -8,6 +8,9 @@ const mongoose = require('mongoose');
 
 // var index = require('./routes/index');
 const customers = require('./routes/routes.customers');
+const products = require('./routes/routes.products');
+const transactions = require('./routes/routes.transactions');
+
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/ecommerce')
@@ -28,6 +31,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/customers',customers)
+app.use('/api/products', products)
+app.use('/api/transactions',transactions)
 
 
 // catch 404 and forward to error handler
