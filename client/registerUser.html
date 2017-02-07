@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <style media="screen">
+      #box-register-user{
+        width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #btn-register-user{
+        margin-top: 20px;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Register New User</title>
+  </head>
+
+  <div class="container">
+    <!-- register form -->
+    <form class="col s12" id="box-register-user">
+
+        <div class="row">
+          <h1 class="center">Form Register User</h1>
+        </div>
+
+        <div class="input-field">
+          <i class="material-icons prefix">email</i>
+          <!-- input -->
+          <input id="input-register-user-email" type="text" class="validate">
+          <!-- /input -->
+          <label for="icon_prefix">Email</label>
+        </div>
+
+        <div class="input-field">
+          <i class="material-icons prefix">account_circle</i>
+          <!-- input -->
+          <input id="input-register-user-name" type="text" class="validate">
+          <!-- /input -->
+          <label for="icon_prefix">Your Name</label>
+        </div>
+
+        <div class="input-field">
+          <i class="material-icons prefix">phone</i>
+          <!-- input -->
+          <input id="input-register-user-phone" type="tel" class="validate">
+          <!-- /input -->
+          <label for="icon_telephone">Telephone</label>
+        </div>
+
+        <div class="center">
+          <a class="waves-effect waves-light btn right" id="btn-register-user" onclick="register()">Register Now</a>
+        </div>
+
+
+    </form>
+
+    <!-- register form -->
+  </div>
+
+  <body>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <!-- script -->
+    <script type="text/javascript">
+      /* reset form register */
+      function restForm(){
+        $('#input-register-user-name').val('');
+        $('#input-register-user-email').val('');
+        $('#input-register-user-phone').val('');
+      }
+
+      function register(){
+
+        console.log("masuk");
+        console.log($('#input-register-user-email').val());
+        console.log($('#input-register-user-name').val());
+        console.log($('#input-register-user-phone').val());
+
+        /* register user using ajax */
+        $.ajax({
+          url: "http://localhost:3000/api/customers/register",
+          type: "POST",
+          data: {
+            name : $('#input-register-user-name').val(),
+            email : $('#input-register-user-email').val(),
+            phone : $('#input-register-user-phone').val()
+          },
+          success: function( result ) {
+            /* after success set customer id and customer name in local storage browser */
+            localStorage.setItem("customerid", result._id);
+            localStorage.setItem("customerName", result.name);
+            /* after success go to home html */
+            Materialize.toast('Register Success', 2000,'',function(){
+              window.location.href = "http://127.0.0.1:8080/home.html";
+            });
+            /* after that reset form register */
+            restForm();
+          }
+        });
+        /* register user using ajax */
+      }
+    </script>
+  </body>
+</html>

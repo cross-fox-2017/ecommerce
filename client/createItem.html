@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <style media="screen">
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Create new Item</title>
+  </head>
+
+  <div class="container">
+    <!-- form create item -->
+    <div class="row center">
+      <h3>Create Item</h3>
+    </div>
+    <div class="row">
+      <!-- from -->
+    </div>
+    <!-- form create item -->
+
+    <!-- list item -->
+    <div class="row center">
+      <h3>List Item</h3>
+    </div>
+
+    <table class="bordered">
+      <thead>
+        <tr>
+            <th data-field="id">Item Name</th>
+            <th data-field="name">Description</th>
+            <th data-field="price">Item Price</th>
+            <th data-field="price">Item Stock</th>
+        </tr>
+      </thead>
+
+      <tbody id="list-item-body">
+        <tr>
+          <td>Alvin</td>
+          <td>Eclair</td>
+          <td>$0.87</td>
+          <td>$0.87</td>
+        </tr>
+    </table>
+    <!-- list item -->
+  </div>
+
+  <body>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <!-- script -->
+    <script type="text/javascript">
+    $(document).ready(function(){
+      /* get all item */
+      $.ajax({
+        url: "http://localhost:3000/api/item",
+        type: "GET",
+        data: {
+        },
+        success: function( result ) {
+
+        }
+      });
+      /* get all item */
+    })
+
+
+    </script>
+  </body>
+</html>
