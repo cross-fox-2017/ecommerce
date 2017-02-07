@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,12 +12,13 @@
     <link href="css/shop-homepage.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-          <nav class="navbar navbar-default">
-          </nav>
+            <nav class="navbar navbar-default">
+            </nav>
         </div>
         <!-- /.container -->
     </nav>
@@ -24,19 +26,30 @@
         <div class="row">
             <div class="col-md-3">
                 <p class="lead">KumpulBerbagi.com</p>
-                  <div class="form-group">
+                <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
-                  </div>
+                </div>
                 <div class="list-group">
                     <a class="list-group-item">Cart</a>
-                    <a class="list-group-item">0</a>
-                    <br>
-                    <a class="btn btn-info" href="">CheckOut</a>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Count</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listcart">
+
+                        </tbody>
+                    </table>
+                    <h4 id="totalPrice" class="pull-right" onclick="cancelTransaction()"></h4>
+                    <button class="btn btn-success">CheckOut</button>
+                    <a class="btn btn-warning" onclick="cancelTransaction()">Cancel</a>
                 </div>
             </div>
             <div class="col-md-9">
                 <div class="row carousel-holder">
-
                     <div class="col-md-12">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
@@ -67,17 +80,12 @@
                 </div>
 
                 <div id="products" class="row">
-
-
-
                 </div>
             </div>
         </div>
     </div>
     <div class="container">
-
         <hr>
-
         <!-- Footer -->
         <footer>
             <div class="row">
@@ -92,15 +100,16 @@
     <script src="js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
-      $(document).ready(function() {
-          $.ajax({
-              url: "http://localhost:3000/api/products",
-              type: "GET",
-              success: function(result) {
-                console.log(result[0]._id)
-                  var tampung = "";
-                  for (var i = 0; i < result.length; i++) {
-                          tampung += `<div class="col-sm-4 col-lg-4 col-md-4">
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://localhost:3000/api/products",
+                type: "GET",
+                success: function(result) {
+                    console.log(result[0]._id)
+                    var tampung = "";
+                    for (var i = 0; i < result.length; i++) {
+                        tampung +=
+                            `<div class="col-sm-4 col-lg-4 col-md-4">
                             <div class="thumbnail">
                                 <div class="img-container" style="background-image:url('${result[i].imageUrl}')"></div>
                                 <div class="caption">
@@ -108,18 +117,67 @@
                                     <h4><a href="#">${result[i].name}</a></h1>
                                     <p>${result[i].description}</p>
                                     <h4 class="pull-right">${result[i].stock} pcs</h4>
-                                    <a class="btn btn-info" href="">Add To Cart</a>
+                                    <button class="btn btn-info" onclick="addCart('${result[i]._id}','${result[i].name}','${result[i].price}','${result[i].stock}')">Add To Cart</button>
                                     <input id="idProducts" type="hidden" value="${result[i]._id}">
                                 </div>
                                 <br>
                             </div>
                         </div>`
-                  }
-                  $("#products").append(tampung)
+                    }
+                    $("#products").append(tampung)
+                }
+            });
+        })
+    </script>
+    <script>
+        function cancelTransaction() {
+            return localStorage.clear();
+        }
 
-              }
-          });
-      })
+        function totalAll() {
+          var sum = 0;
+          // $('.hargaProducts').each(function(data) {
+            // console.log(data)
+            // sum += Number($('.hargaProducts').val());
+          // });
+        }
+
+        function addCart(id, name, price, stock) {
+
+            if (localStorage.getItem(id)) {
+                var dataBarang = JSON.parse(localStorage.getItem(id))
+                var jumlahBarang = dataBarang.jumlah + 1
+                var totalHarga = dataBarang.harga + Number(price)
+                var value = {
+                    "jumlah": jumlahBarang,
+                    "harga": totalHarga
+                }
+                localStorage.setItem(id, JSON.stringify(value));
+                var listproducts =
+                    ` <tr id=${id}>
+                                        <td>${name}</td>
+                                        <td>${jumlahBarang}</td>
+                                        <td class="hargaProducts">${totalHarga}</td>
+                                      </tr>`
+                document.getElementById(id).innerHTML = listproducts
+                document.getElementById("totalPrice").innerHTML = "23234234"
+            } else {
+                var value = {
+                    "jumlah": 1,
+                    "harga": Number(price)
+                }
+                localStorage.setItem(id, JSON.stringify(value));
+                var listproducts =
+                    ` <tr id=${id}>
+                                        <td>${name}</td>
+                                        <td>1</td>
+                                        <td class="hargaProducts">${price}</td>
+                                      </tr>`
+                $("#listcart").prepend(listproducts)
+                document.getElementById("totalPrice").innerHTML = "3444"
+            }
+
+        }
     </script>
 </body>
 

@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+
 // var index = require('./routes/index');
 const customers = require('./routes/routes.customers');
 const products = require('./routes/routes.products');
@@ -14,7 +15,6 @@ var cors = require('cors')//tambahan agar halaman bisa diakses dari client
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/ecommerce')
-
 
 
 var app = express();
