@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 
 var customersSchema = new Schema({
-  name:String,//Dilarang ditulis dengan huruf Besar
-  customersId:String,
+  name:String,
   address:String,
   phone:String
 },{

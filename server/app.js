@@ -4,8 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 // var index = require('./routes/index');
+const customers = require('./routes/routes.customers');
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/ecommerce')
+
 
 
 var app = express();
@@ -20,6 +26,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/api/customers',customers)
 
 
 // catch 404 and forward to error handler
