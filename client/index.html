@@ -15,7 +15,6 @@
     <div class="container">
       <div class="jumbotron">
         <h1>Welcome To SmileShop</h1>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Start Shopping</a></p>
       </div>
       <div class="row">
         <div class="col-xs-9">
@@ -23,15 +22,16 @@
             <div id="itemlist"></div>
           </div>
         </div>
-        <div class="col-xs-3">
+        <div class="col-xs-3" id="mycart" style="text-align:center">
           <h1>Your Cart</h1>
-          <div class="thumbnail">
-            <img src="http://lorempixel.com/200/100/food">
-          </div>
-          <div class="thumbnail">
-            <img src="http://lorempixel.com/200/100/food">
-          </div>
-          <button type="submit" name="Checkout" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-shopping-cart"></span>Checkout</button>
+          <table class="table">
+            <thead>
+              <th>Item</th>
+              <th>Quantity</th>
+            </thead>
+            <tbody id='cartItem'></tbody>
+          </table>
+          <button type="submit" name="Checkout" class="btn btn-success btn-lg checkout"><span class="glyphicon glyphicon-shopping-cart"></span>Checkout</button>
         </div>
       </div>
     </div>

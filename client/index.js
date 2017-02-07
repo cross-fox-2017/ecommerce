@@ -10,6 +10,23 @@ function addToCart(item){
   } else {
     localStorage.setItem(item, qty);
   }
+  refreshCart()
+}
+function refreshCart() {
+  let cart = []
+  for (var item in localStorage) {
+    cart.push({name: item, qty: localStorage[item]});
+  }
+  cart = cart.slice(0, localStorage.length)
+  $('#cartItem').empty()
+  cart.forEach(function(item){
+    $('#cartItem').append(
+        `<tr>
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+        </tr>`
+    )
+  })
 }
 function listAllItem(){
   $.ajax({
@@ -19,7 +36,7 @@ function listAllItem(){
       data.forEach(function(item){
         $('#itemlist').append(
           `<div class="col-xs-4">
-            <div class="thumbnail">
+            <div class="thumbnail" style='text-align:center'>
               <label style="text-align:center">${item.name}</label>
               <img src=${item.picture}>
               <p>Stock: ${item.stock}</p>
@@ -41,5 +58,9 @@ function addlistener(){
   $('#itemlist').on('click', '.btn.cartlist', function(){
     addToCart(this.id)
     alert('Added To Cart '+this.id);
+  })
+  $('#mycart').on('click', '.btn.btn-success.btn-lg.checkout', function(){
+    localStorage.clear();
+    alert('Buy Items Success');
   })
 }
