@@ -4,7 +4,7 @@ var Schema   = mongoose.Schema;
 var ItemsSchema = new Schema({
   name : String,
   picture: String,
-  stock: String
+  stock: Number
 })
 
 var items = mongoose.model('Items', ItemsSchema);
