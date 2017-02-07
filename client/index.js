@@ -1,4 +1,17 @@
 $(document).ready(function(){
+  listAllItem()
+})
+function addToCart(item){
+  let qty = 1
+  if(localStorage.getItem(item)){
+    prevQty = localStorage.getItem(item)
+    newQty = Number(prevQty) + 1
+    localStorage.setItem(item, newQty)
+  } else {
+    localStorage.setItem(item, qty);
+  }
+}
+function listAllItem(){
   $.ajax({
     type: 'GET',
     url: 'http://localhost:3000/api/items',
@@ -11,7 +24,7 @@ $(document).ready(function(){
               <img src=${item.picture}>
               <p>Stock: ${item.stock}</p>
               <p>Price: ${item.price}</p>
-              <button type="button" name="button" class="btn btn-success" onclick="addToCart(${item})">Add to Cart</button>
+              <button type="button" name="button" class="btn btn-success cartlist" id="${item.name}">Add to Cart</button>
             </div>
           </div>`
         )
@@ -20,9 +33,13 @@ $(document).ready(function(){
     fail: function(err){
       console.log(err);
     }
+  }).done(function(){
+    addlistener()
   })
-})
-function addToCart(item){
-  var dataToStore = JSON.stringify(item);
-  localStorage.setItem('customer', dataToStore);
+}
+function addlistener(){
+  $('#itemlist').on('click', '.btn.cartlist', function(){
+    addToCart(this.id)
+    alert('Added To Cart '+this.id);
+  })
 }
