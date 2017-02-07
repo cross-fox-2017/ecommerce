@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>KumpulBerbagi</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/shop-homepage.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <nav class="navbar navbar-default">
+          </nav>
+        </div>
+        <!-- /.container -->
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="lead">KumpulBerbagi.com</p>
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                  </div>
+                <div class="list-group">
+                    <a class="list-group-item">Cart</a>
+                    <a class="list-group-item">0</a>
+                    <br>
+                    <a class="btn btn-info" href="">CheckOut</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row carousel-holder">
+
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img class="slide-image" src="https://img10.jd.id/Indonesia/nHBfsgAABgAAABAABpcvHQAB7vk.jpg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="http://www.brica.co.id/products/act/bprofeat0.png" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="https://s3.amazonaws.com/buygoon-app-static-resources-prod/categories/banners/000/000/014/original/Banner_-_Electronics.jpg?1473389006" alt="">
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="products" class="row">
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; KumpulBerbagi</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $.ajax({
+              url: "http://localhost:3000/api/products",
+              type: "GET",
+              success: function(result) {
+                console.log(result[0]._id)
+                  var tampung = "";
+                  for (var i = 0; i < result.length; i++) {
+                          tampung += `<div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <div class="img-container" style="background-image:url('${result[i].imageUrl}')"></div>
+                                <div class="caption">
+                                    <h4 class="pull-right">Rp. ${result[i].price}</h4>
+                                    <h4><a href="#">${result[i].name}</a></h1>
+                                    <p>${result[i].description}</p>
+                                    <h4 class="pull-right">${result[i].stock} pcs</h4>
+                                    <a class="btn btn-info" href="">Add To Cart</a>
+                                    <input id="idProducts" type="hidden" value="${result[i]._id}">
+                                </div>
+                                <br>
+                            </div>
+                        </div>`
+                  }
+                  $("#products").append(tampung)
+
+              }
+          });
+      })
+    </script>
+</body>
+
+</html>

@@ -18,6 +18,11 @@ var Products = {
             res.send(data)
           }
         })
+    },
+    getAllProducts: function(req, res, next) {
+      modelsProducts.find({}, function(err, data) {
+          res.send(data)
+      })
     }
 }
 

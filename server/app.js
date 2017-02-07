@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const customers = require('./routes/routes.customers');
 const products = require('./routes/routes.products');
 const transactions = require('./routes/routes.transactions');
-
+var cors = require('cors')//tambahan agar halaman bisa diakses dari client
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/ecommerce')
@@ -21,6 +21,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(cors())//tambahan agar halaman bisa diakses dari client
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
