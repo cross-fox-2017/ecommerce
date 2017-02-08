@@ -105,7 +105,6 @@
                 url: "http://localhost:3000/api/products",
                 type: "GET",
                 success: function(result) {
-                    console.log(result[0]._id)
                     var tampung = "";
                     for (var i = 0; i < result.length; i++) {
                         tampung +=
@@ -129,9 +128,24 @@
             });
         })
     </script>
+
     <script>
+      $(document).ready(function() {
+        for (var i = 0; i < localStorage.length; i++) {
+            key = localStorage.key(i);
+            var dataBarang = JSON.parse(localStorage.getItem(key))
+            var listproducts =
+                ` <tr id=${key}>
+                                    <td>${dataBarang.nama}</td>
+                                    <td>${dataBarang.jumlah}</td>
+                                    <td class="hargaProducts">${dataBarang.harga}</td>
+                                  </tr>`
+            $("#listcart").prepend(listproducts)
+        }
+        totalAll()
+      })
         function cancelTransaction() {
-            for (var i = 0; i <= localStorage.length - 1; i++) {
+            for (var i = 0; i < localStorage.length; i++) {
                 key = localStorage.key(i);
                 document.getElementById(key).innerHTML = ""
 
@@ -139,6 +153,7 @@
             document.getElementById("totalPrice").innerHTML = ""
             return localStorage.clear();
         }
+
 
         function totalAll() {
               var tds = document.getElementById('tableCart').getElementsByTagName('td');
@@ -148,7 +163,9 @@
                       sum += parseInt(tds[i].innerHTML);
                   }
               }
-              document.getElementById('totalPrice').innerHTML = sum
+              if(sum!=0){
+                document.getElementById('totalPrice').innerHTML = sum
+              }  
         }
 
         function addCart(id, name, price, stock) {
@@ -157,6 +174,7 @@
                 var jumlahBarang = dataBarang.jumlah + 1
                 var totalHarga = dataBarang.harga + Number(price)
                 var value = {
+                    "nama": name,
                     "jumlah": jumlahBarang,
                     "harga": totalHarga
                 }
@@ -168,9 +186,9 @@
                                         <td class="hargaProducts">${totalHarga}</td>
                                       </tr>`
                 document.getElementById(id).innerHTML = listproducts
-                document.getElementById("totalPrice").innerHTML = "23234234"
             } else {
                 var value = {
+                    "nama":name,
                     "jumlah": 1,
                     "harga": Number(price)
                 }
@@ -182,7 +200,6 @@
                                         <td class="hargaProducts">${price}</td>
                                       </tr>`
                 $("#listcart").prepend(listproducts)
-                document.getElementById("totalPrice").innerHTML = "3444"
             }
           totalAll()
         }
