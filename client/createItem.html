@@ -79,6 +79,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <!-- script -->
     <script type="text/javascript">
+    function resetForm(){
+      $('#input-item-name').val('');
+      $('#input-item-description').val('');
+      $('#input-item-price').val('');
+      $('#input-item-stock').val('');
+    }
+
     $(document).ready(function(){
       console.log("masuk");
       /* get all item */
@@ -112,8 +119,9 @@
           stock : $('#input-item-stock').val()
         },
         success: function( result ) {
-          Materialize.toast('Item successfully create', 4000)
+          Materialize.toast('Item successfully create', 2500)
           $('#list-item-body').prepend(`<tr><td>${result.itemName}</td><td>${result.description}</td><td>${result.price}</td><td>${result.stock}</td></tr>`);
+          resetForm();
         }
       });
       /* create item */

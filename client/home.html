@@ -27,7 +27,7 @@
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="http://127.0.0.1:8080/createItem.html">Item</a></li>
             <li>
-              <a class='dropdown-button btn' href='#' data-activates='drop-cart'>Cart</a>
+              <a class="waves-effect waves-light btn" data-target="modal-cart"><i class="large material-icons">shopping_cart</i></a>
             </li>
           </ul>
         </div>
@@ -35,12 +35,33 @@
     </nav>
     <!-- navbar -->
 
-    <!-- cart -->
-    <ul id='drop-cart' class='dropdown-content'>
-      <li><a href="#!">Item 1</a></li>
-
-    </ul>
-    <!-- cart -->
+    <!-- modal cart -->
+    <div id="modal-cart" class="modal">
+      <div class="modal-content">
+        <table>
+          <thead>
+            <tr>
+                <th data-field="iten-name">Name</th>
+                <th data-field="qty">Qty</th>
+                <th data-field="price-each">Each Price</th>
+                <th data-field="sub-price">sub Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alvin</td>
+              <td>Eclair</td>
+              <td><input type="number" name="" value=""></td>
+              <td>100000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Checkout</a>
+      </div>
+    </div>
+    <!-- modal cart -->
 
     <div class="container">
 
@@ -63,7 +84,8 @@
     <script type="text/javascript">
     /* ready */
     $(document).ready(function(){
-
+      /* setup modal */
+      $('.modal').modal();
       /* get all item */
       $.ajax({
         url: "http://localhost:3000/api/items",
@@ -84,7 +106,7 @@
                     <p> Description : ${result[i].description}</p>
                   </div>
                   <div class="" id="list-item-price">
-                    <p>PRICE : ${result[i].price}</p>
+                    <p>PRICE : Rp  ${result[i].price},-</p>
                   </div>
                   <div class="" id="list-item-price">
                     <p>STOCK : ${result[i].stock}</p>
@@ -103,10 +125,9 @@
     document.getElementById("customer-id").innerHTML = localStorage.getItem("customerid");
     document.getElementById("customer-name").innerHTML = localStorage.getItem("customerName");
 
-    var hallo = ["ada"]
     function addToCart(itemid){
-      hallo.push(" ada")
-      alert(hallo)
+      var obj = { id: "hallo world", name: "bagus", qty: 2}
+      alert(typeof(obj))
     }
 
     </script>
