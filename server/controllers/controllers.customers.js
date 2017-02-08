@@ -3,7 +3,7 @@ var modelsCustomers = require('../models/models.customers')
 var Customers = {
     registerCustomers: function(req, res, next) {
         var saveCustomers = new modelsCustomers({
-            name: req.body.name,
+            name: req.body.customersname,
             address: req.body.address,
             phone: req.body.phone
         })

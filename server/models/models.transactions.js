@@ -9,6 +9,7 @@ var transactionsSchema = new Schema({
   totalPrice:Number,
   productsList:[{
     type: Schema.Types.ObjectId,
+    qty:Number,
     ref: "Products"
   }],
 },{

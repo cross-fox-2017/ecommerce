@@ -44,7 +44,7 @@
                         </tbody>
                     </table>
                     <h4 id="totalPrice" class="pull-right"></h4>
-                    <button class="btn btn-success">CheckOut</button>
+                    <a class="btn btn-success" href="/transactions.html">CheckOut</a>
                     <a class="btn btn-warning" onclick="cancelTransaction()">Cancel</a>
                 </div>
             </div>
@@ -165,7 +165,7 @@
               }
               if(sum!=0){
                 document.getElementById('totalPrice').innerHTML = sum
-              }  
+              }
         }
 
         function addCart(id, name, price, stock) {
