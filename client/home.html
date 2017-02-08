@@ -31,7 +31,7 @@
                 </div>
                 <div class="list-group">
                     <a class="list-group-item">Cart</a>
-                    <table class="table">
+                    <table id="tableCart" class="table">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -43,7 +43,7 @@
 
                         </tbody>
                     </table>
-                    <h4 id="totalPrice" class="pull-right" onclick="cancelTransaction()"></h4>
+                    <h4 id="totalPrice" class="pull-right"></h4>
                     <button class="btn btn-success">CheckOut</button>
                     <a class="btn btn-warning" onclick="cancelTransaction()">Cancel</a>
                 </div>
@@ -131,19 +131,27 @@
     </script>
     <script>
         function cancelTransaction() {
+            for (var i = 0; i <= localStorage.length - 1; i++) {
+                key = localStorage.key(i);
+                document.getElementById(key).innerHTML = ""
+
+            }
+            document.getElementById("totalPrice").innerHTML = ""
             return localStorage.clear();
         }
 
         function totalAll() {
-          var sum = 0;
-          // $('.hargaProducts').each(function(data) {
-            // console.log(data)
-            // sum += Number($('.hargaProducts').val());
-          // });
+              var tds = document.getElementById('tableCart').getElementsByTagName('td');
+              var sum = 0;
+              for(var i = 0; i < tds.length; i ++) {
+                  if(tds[i].className == 'hargaProducts') {
+                      sum += parseInt(tds[i].innerHTML);
+                  }
+              }
+              document.getElementById('totalPrice').innerHTML = sum
         }
 
         function addCart(id, name, price, stock) {
-
             if (localStorage.getItem(id)) {
                 var dataBarang = JSON.parse(localStorage.getItem(id))
                 var jumlahBarang = dataBarang.jumlah + 1
@@ -176,7 +184,7 @@
                 $("#listcart").prepend(listproducts)
                 document.getElementById("totalPrice").innerHTML = "3444"
             }
-
+          totalAll()
         }
     </script>
 </body>
