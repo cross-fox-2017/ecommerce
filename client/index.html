@@ -76,7 +76,7 @@
     <div class="container">
       <div class="col-md-8 col-sm-12 col-xs-12">
         <div class="container row col-md-12 col-sm-12 col-xs-12">
-          <div class="panel panel-success">
+          <div class="panel panel-info">
             <div class="panel-heading">
               What's Hot
             </div>
@@ -91,7 +91,7 @@
         </div>
       </div>
       <div class="container col-md-4 col-sm-12 col-xs-12">
-        <div class="panel panel-success">
+        <div class="panel panel-info">
           <div class="panel-heading">Your Cart:</div>
           <div class="panel-body">
             <table class="table">
@@ -157,27 +157,29 @@
               `<div class="column container col-md-3 col-sm-3 col-xs-4">
                 <div class="thumbnail">
                   <img src="https://humblebundle.imgix.net/misc/files/hashed/abc813c4bdfb5d7d8a5230d0b38704bc095c2bda.jpg?auto=format&fit=crop&h=353&w=616&ixlib=python-0.2.0&s=106f23ea7dd929849a4f1d0a34f69043" alt="image">
-                  <div style="padding: 5px;min-height:130px;">
-                    <span>Name: ${item.name}</span>
+                  <div style="padding: 5px;min-height:150px;">
+                    <span id="item-${i+1}-id" value="${item._id}"><b style="color:#009999;">Item Id:</b> ${item.itemid}</span>
                     </br>
-                    <span>Category: ${item.category}</span>
+                    <span id="item-${i+1}-name" value="${item.name}">${item.name}</span>
                     </br>
-                    <span">Stock: ${item.stock}</span>
+                    <span id="item-${i+1}-category" value="${item.category}"><b style="color:#009999;">Category:</b> ${item.category}</span>
                     </br>
-                    <span">Price: ${item.price}</span>
+                    <span id="item-${i+1}-stock" value="${item.stock}"><b style="color:#009999;">Stock:</b> ${item.stock}</span>
+                    </br>
+                    <span id="item-${i+1}-price" value="${item.price}"><b style="color:#009999;">Price:</b> ${item.price}</span>
                     </br>
                   </div>
                   <div style="text-align:center;padding-bottom:5px;">
-                    <button id="add-item-${i}" type="submit" class="btn btn-primary">Add to Cart</button>
+                    <button id="add-item-${i+1}" type="submit" class="btn btn-primary">Add to Cart</button>
                   </div>
                 </div>
               </div>`
             )
           }
           for(let i = 0; i < resp.length; i++) {
-            $(`#add-item-${i}`).click(function () {
+            $(`#add-item-${i+1}`).click(function () {
               let item = resp[i]
-              getDetails(i, item)
+              getDetails(i)
             })
           }
         },
@@ -186,32 +188,34 @@
         }
       });
 
-      function getDetails(i, item) {
-        if (localStorage.getItem(`item-${i}-qty`)) {
-          let newQty = localStorage.getItem(`item-${i}-qty`)
-          localStorage.setItem(`item-${i}-qty`, Number(newQty) + 1)
+      function getDetails(i) {
+        let itemInfo = {id: $(`#item-${i+1}-id`).attr('value'), name: $(`#item-${i+1}-name`).attr('value'), stock: $(`#item-${i+1}-stock`).attr('value'), price: $(`#item-${i+1}-price`).attr('value')}
+        if (localStorage.getItem(`item-${i+1}-qty`)) { // if localStorage not null
+          let newQty = localStorage.getItem(`item-${i+1}-qty`)
+          localStorage.setItem(`item-${i+1}-qty`, Number(newQty) + 1)
         }
         else {
           let qty = 1;
-          localStorage.setItem(`item-${i}-qty`, qty)
+          localStorage.setItem(`item-${i+1}-qty`, qty)
+          localStorage.setItem(`cart-${i+1}`, JSON.stringify(itemInfo))
         }
         console.log(localStorage);
-        appendToCart(i, item)
+        appendToCart(i)
       }
 
-      function appendToCart(i, item) {
-        $('#cart').empty()
-        let qty = localStorage.getItem(`item-${i}-qty`)
-        console.log(item);
-        // for (x in localStorage) {
-          $('#cart').append(
-            `<tr>
-                <td>${item.name}</td>
-                <td>${qty}</td>
-                <td>${item.price}</td>
-            </tr>`
-          )
-        // }
+      function appendToCart(i) {
+        $(`#item-${i+1}`).empty()
+        let qty = localStorage.getItem(`item-${i+1}-qty`)
+        let cart = localStorage.getItem(`cart-${i+1}`)
+        let cartParsed = JSON.parse(cart);
+        console.log(cartParsed);
+        $('#cart').append(
+          `<tr id="item-${i+1}">
+              <td>${cartParsed.name}</td>
+              <td>${qty}</td>
+              <td>${cartParsed.price}</td>
+          </tr>`
+        )
       }
 
       // function checkout() {
