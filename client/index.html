@@ -176,16 +176,20 @@
               </div>`
             )
           }
-          for(let i = 0; i < resp.length; i++) {
-            $(`#add-item-${i+1}`).click(function () {
-              getDetails(i)
-            })
-          }
+          addToCart(resp);
         },
         error: function() {
           console.log("Back End Response Error");
         }
       });
+
+      function addToCart(resp) {
+        for(let i = 0; i < resp.length; i++) {
+          $(`#add-item-${i+1}`).click(function () {
+            getDetails(i)
+          })
+        }
+      }
 
       function getDetails(i) {
         // assign item information to a new object called itemInfo
@@ -209,21 +213,25 @@
             qty: 1
           })
           localStorage.setItem(`cart-${i+1}`, JSON.stringify(itemInfo))
-        }
-        appendToCart(i)
+        }        
+        appendToCartTabble(i)
       }
 
-      function appendToCart(i) {
-        $(`#item-${i+1}`).empty()
+      function appendToCartTabble(i) {
+        $(`#cart`).empty()
         let cart = localStorage.getItem(`cart-${i+1}`)
         let cartParsed = JSON.parse(cart)[0];
-        $('#cart').append(
-          `<tr id="item-${i+1}">
-              <td>${cartParsed.name}</td>
-              <td>${cartParsed.qty}</td>
-              <td>${cartParsed.price}</td>
-          </tr>`
-        )
+        for (let j in localStorage) {
+          let item = JSON.parse(localStorage[j])[0]
+          $('#cart').append(
+            `<tr>
+                <td>${item.name}</td>
+                <td>${item.qty}</td>
+                <td>${item.price}</td>
+            </tr>`
+          )
+        }
+
       }
 
       // function checkout() {
