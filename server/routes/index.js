@@ -21,6 +21,8 @@ router.delete('/item/:itemid', itemsController.deleteItem)
 
 router.put('/item/:itemid', itemsController.updateItem)
 
+router.post('/item/checkout', itemsController.checkout)
+
 // Customers
 
 router.get('/customers', customersController.getCustomers)

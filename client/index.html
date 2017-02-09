@@ -90,10 +90,10 @@
           </div>
         </div>
       </div>
-      <div class="container col-md-4 col-sm-12 col-xs-12">
+      <div class="col-md-4 col-sm-12 col-xs-12">
         <div class="panel panel-info">
           <div class="panel-heading">Your Cart:</div>
-          <div class="panel-body">
+          <div class="panel-body" style="width: 100%">
             <table class="table">
               <thead>
                 <tr>
@@ -140,115 +140,6 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script>
-    $(document).ready(function () {
-      showItems()
-    })
-
-    function showItems() {
-      $.ajax({
-        type: 'GET',
-        url: 'http://localhost:3000/items',
-        success: function(resp) {
-          for(let i = 0; i < resp.length; i++) {
-            let item = resp[i]
-            $('.row.item-box').append(
-              `<div class="column container col-md-3 col-sm-3 col-xs-4">
-                <div class="thumbnail">
-                  <img src="https://humblebundle.imgix.net/misc/files/hashed/abc813c4bdfb5d7d8a5230d0b38704bc095c2bda.jpg?auto=format&fit=crop&h=353&w=616&ixlib=python-0.2.0&s=106f23ea7dd929849a4f1d0a34f69043" alt="image">
-                  <div style="padding: 5px;min-height:150px;">
-                    <span id="item-${i+1}-id" value="${item._id}"><b style="color:#009999;">Item Id:</b> ${item.itemid}</span>
-                    </br>
-                    <span id="item-${i+1}-name" value="${item.name}">${item.name}</span>
-                    </br>
-                    <span id="item-${i+1}-category" value="${item.category}"><b style="color:#009999;">Category:</b> ${item.category}</span>
-                    </br>
-                    <span id="item-${i+1}-stock" value="${item.stock}"><b style="color:#009999;">Stock:</b> ${item.stock}</span>
-                    </br>
-                    <span id="item-${i+1}-price" value="${item.price}"><b style="color:#009999;">Price:</b> ${item.price}</span>
-                    </br>
-                  </div>
-                  <div style="text-align:center;padding-bottom:5px;">
-                    <button id="add-item-${i+1}" type="submit" class="btn btn-primary">Add to Cart</button>
-                  </div>
-                </div>
-              </div>`
-            )
-          }
-          addToCart(resp);
-        },
-        error: function() {
-          console.log("Back End Response Error");
-        }
-      });
-
-      function addToCart(resp) {
-        for(let i = 0; i < resp.length; i++) {
-          $(`#add-item-${i+1}`).click(function () {
-            getDetails(i)
-          })
-        }
-      }
-
-      function getDetails(i) {
-        // assign item information to a new object called itemInfo
-        let itemInfo = []
-        if (localStorage.getItem(`cart-${i+1}`)) { // if cart-${i+1} not null
-          let getCart = localStorage.getItem(`cart-${i+1}`)
-          let newQty = (JSON.parse(getCart)[0].qty) + 1
-          itemInfo.push({
-            id: $(`#item-${i+1}-id`).attr('value'),
-            name: $(`#item-${i+1}-name`).attr('value'),
-            price: $(`#item-${i+1}-price`).attr('value'),
-            qty: newQty
-          })
-          localStorage.setItem(`cart-${i+1}`, JSON.stringify(itemInfo))
-        }
-        else {
-          itemInfo.push({
-            id: $(`#item-${i+1}-id`).attr('value'),
-            name: $(`#item-${i+1}-name`).attr('value'),
-            price: $(`#item-${i+1}-price`).attr('value'),
-            qty: 1
-          })
-          localStorage.setItem(`cart-${i+1}`, JSON.stringify(itemInfo))
-        }        
-        appendToCartTabble(i)
-      }
-
-      function appendToCartTabble(i) {
-        $(`#cart`).empty()
-        let cart = localStorage.getItem(`cart-${i+1}`)
-        let cartParsed = JSON.parse(cart)[0];
-        for (let j in localStorage) {
-          let item = JSON.parse(localStorage[j])[0]
-          $('#cart').append(
-            `<tr>
-                <td>${item.name}</td>
-                <td>${item.qty}</td>
-                <td>${item.price}</td>
-            </tr>`
-          )
-        }
-
-      }
-
-      // function checkout() {
-      //   $('#add-item').submit(function (e) {
-      //     e.preventDefault()
-      //     $.ajax({
-      //       type: 'POST',
-      //       url: 'http://localhost:3000/', // pengganti action form
-      //       data: {tweet: tweetVal}, //req.body.tweet = input.val
-      //       dataType: 'json'
-      //     }).done(function(resp) {
-      //       $('#tweet-container').prepend('<p>'+resp.text+'</p>')
-      //       $("input[name=tweet]").val("");
-      //     });
-      //   })
-      // }
-    }
-    </script>
+    <script src="index.js" charset="utf-8"></script>
   </body>
 </html>

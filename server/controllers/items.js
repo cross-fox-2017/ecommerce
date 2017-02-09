@@ -41,5 +41,17 @@ module.exports = {
     }).catch(function (err) {
       res.json(err)
     })
+  },
+  checkout: (req, res) => {
+    let carts = JSON.parse(req.body.carts)
+    for (let i = 0; i < carts.length; i++) {
+      Items.findOneAndUpdate({
+        _id: carts[i].id
+      }, {$set: {stock: (carts[i].stock) - (carts[i].qty)}}).then(function (data) {
+        res.json(data)
+      }).catch(function (err) {
+        res.json(err)
+      })
+    }
   }
 }
