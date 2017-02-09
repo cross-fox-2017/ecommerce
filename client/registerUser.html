@@ -52,6 +52,14 @@
           <label for="icon_telephone">Telephone</label>
         </div>
 
+        <div class="input-field">
+          <i class="material-icons prefix">vpn_key</i>
+          <!-- input -->
+          <input id="input-register-user-password" type="password" class="validate">
+          <!-- /input -->
+          <label for="icon_password">Password</label>
+        </div>
+
         <div class="center">
           <a class="waves-effect waves-light btn right" id="btn-register-user" onclick="register()">Register Now</a>
         </div>
@@ -77,12 +85,6 @@
       }
 
       function register(){
-
-        console.log("masuk");
-        console.log($('#input-register-user-email').val());
-        console.log($('#input-register-user-name').val());
-        console.log($('#input-register-user-phone').val());
-
         /* register user using ajax */
         $.ajax({
           url: "http://localhost:3000/api/customers/register",
@@ -90,7 +92,8 @@
           data: {
             name : $('#input-register-user-name').val(),
             email : $('#input-register-user-email').val(),
-            phone : $('#input-register-user-phone').val()
+            phone : $('#input-register-user-phone').val(),
+            password : $('#input-register-user-password').val()
           },
           success: function( result ) {
             /* after success set customer id and customer name in local storage browser */

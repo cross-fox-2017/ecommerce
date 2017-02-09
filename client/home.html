@@ -13,9 +13,12 @@
     .box-list-item{
       height: 500px;
     }
+    .card{
+      height: 630px;
+    }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Create new Item</title>
+    <title>Home</title>
   </head>
 
   <body>
@@ -23,45 +26,17 @@
     <nav class="orange lighten-1">
       <div class="container">
         <div class="nav-wrapper">
-          <a href="http://127.0.0.1:8080/registerUser.html" class="brand-logo">Logo</a>
+          <a href="http://127.0.0.1:8080/registerUser.html" class="brand-logo">Belanja.com</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="http://127.0.0.1:8080/createItem.html">Item</a></li>
-            <li>
+            <li><a class="waves-effect waves-light btn" data-target="modal-cart" href="http://127.0.0.1:8080/createItem.html">Item</a></li>
+            <!-- <li>
               <a class="waves-effect waves-light btn" data-target="modal-cart"><i class="large material-icons">shopping_cart</i></a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
     </nav>
     <!-- navbar -->
-
-    <!-- modal cart -->
-    <div id="modal-cart" class="modal">
-      <div class="modal-content">
-        <table>
-          <thead>
-            <tr>
-                <th data-field="iten-name">Name</th>
-                <th data-field="qty">Qty</th>
-                <th data-field="price-each">Each Price</th>
-                <th data-field="sub-price">sub Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Alvin</td>
-              <td>Eclair</td>
-              <td><input type="number" name="" value=""></td>
-              <td>100000</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Checkout</a>
-      </div>
-    </div>
-    <!-- modal cart -->
 
     <div class="container">
 
@@ -84,6 +59,10 @@
     <script type="text/javascript">
     /* ready */
     $(document).ready(function(){
+      /* set profile */
+      document.getElementById("customer-id").innerHTML = localStorage.getItem("customerid");
+      document.getElementById("customer-name").innerHTML = localStorage.getItem("customerName");
+
       /* setup modal */
       $('.modal').modal();
       /* get all item */
@@ -95,23 +74,19 @@
           for (var i = 0; i < result.length; i++) {
             tmp +=
             `
-            <div class="box-list-item col s3">
-              <div class="z-depth-2">
-                <img src="http://images.clipartpanda.com/item-clipart-new_item_light_red.png" alt="" class="circle responsive-img">
-                <div class="center">
-                  <div class="" id="list-item-name">
-                    <b>${result[i].itemName}</b>
-                  </div>
-                  <div class="" id="list-item-description">
-                    <p> Description : ${result[i].description}</p>
-                  </div>
-                  <div class="" id="list-item-price">
-                    <p>PRICE : Rp  ${result[i].price},-</p>
-                  </div>
-                  <div class="" id="list-item-price">
-                    <p>STOCK : ${result[i].stock}</p>
-                  </div>
-                  <button class="btn-add-cart waves-effect waves-light btn" onclick="addToCart('${result[i]._id}')">add to cart</button>
+            <div class="col s4">
+              <div class="card">
+                <div class="card-image">
+                  <img src="http://images.clipartpanda.com/item-clipart-new_item_light_red.png" alt="" class="circle responsive-img">
+                  <span class="card-title black-text">${result[i].itemName}</span>
+                </div>
+                <div class="card-content">
+                  <p class="item-description"><b>Description :</b> ${result[i].description}</p>
+                  <p class="item-price"><b>Harga : </b> Rp.${result[i].price}</p>
+                  <p class="item-stock"><b>Stock : </b> ${result[i].stock}</p>
+                </div>
+                <div class="card-action">
+                  <button class="btn-add-cart waves-effect waves-light btn" onclick="addToCart('${result[i]._id}', '${result[i].itemName}', '${result[i].price}')">add to cart</button>
                 </div>
               </div>
             </div>
@@ -122,12 +97,16 @@
       });
     }) /* ready */
 
-    document.getElementById("customer-id").innerHTML = localStorage.getItem("customerid");
-    document.getElementById("customer-name").innerHTML = localStorage.getItem("customerName");
-
-    function addToCart(itemid){
-      var obj = { id: "hallo world", name: "bagus", qty: 2}
-      alert(typeof(obj))
+    function addToCart(itemid, itemName, itemPrice){
+      if (localStorage.getItem(`${itemid}`)) {
+        // condition if item already exist in local storage, so we add qty
+        console.log(true);
+      }else{
+        // condition if item not exist in local storage
+        console.log(false);
+        localStorage.setItem(`${itemid}`, ` { itemid:${itemid}, qty: 1, sub: ${itemPrice}}`);
+      }
+      // localStorage.setItem("customerid", result._id);
     }
 
     </script>

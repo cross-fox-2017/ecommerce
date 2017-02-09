@@ -3,17 +3,13 @@ const modelCustomer = require('../models/model.customer')
 var controllerCustomer = {
   /* create new book */
   createCustomer: function (req, res, next) {
-    console.log(req.body.name)
-    console.log(req.body.phone)
-    console.log(req.body.email)
-
     // create a new customer
     var newCustomer = modelCustomer({
       name: req.body.name,
       email: req.body.email,
-      phone: req.body.phone
+      phone: req.body.phone,
+      password: req.body.password
     })
-
     // save the customer
     newCustomer.save(function (err, data) {
       if (err) res.json(err)

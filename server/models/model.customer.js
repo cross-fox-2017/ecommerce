@@ -6,7 +6,8 @@ var Schema = mongoose.Schema
 var customerSchema = new Schema({
   name: String,
   email: String,
-  phone: String
+  phone: String,
+  password: String
 })
 
 // the schema is useless so far

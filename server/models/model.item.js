@@ -7,7 +7,8 @@ var itemSchema = new Schema({
   itemName: String,
   description: String,
   price: Number,
-  stock: Number
+  stock: Number,
+  photoUrl: String
 })
 
 // the schema is useless so far
