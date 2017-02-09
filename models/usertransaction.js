@@ -1,8 +1,16 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var UserTransaction = sequelize.define('UserTransaction', {
-    UserId: DataTypes.INTEGER,
-    ItemId: DataTypes.INTEGER
+    id:{
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
+    CustomerId: DataTypes.INTEGER,
+    ItemId: DataTypes.INTEGER,
+    status:DataTypes.STRING,
+    quantity:DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function(models) {

@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/timocodex/ecommerce#readme",
   "dependencies": {
+    "body-parser": "^1.16.0",
+    "cors": "^2.8.1",
     "express": "^4.14.1",
     "mongod": "^2.0.0",
     "mongoose": "^4.8.1",

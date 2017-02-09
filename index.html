@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Jualan Gadungan</title>
+  </head>
+  <body onload="showItem()">
+    <button type="button" name="button-show-item" onclick="showCart()">Show the cart!</button>
+    <button type="button" name="button-show-item" onclick="showItem()">Show the item!</button>
+    <div id="dagangan">
+    </div>
+  </body>
+  <script>
+    function showItem(){
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3000/items',
+        success: function(resp) {
+            $('#dagangan').empty()
+            var a=0;
+          resp.forEach(function(data){
+            $('#dagangan').append(`<p>${data.name}</p><br><img src="${data.picture}" alt=""><br><p>stok tersedia: ${data.quantity} </p><br><button type="button" name="button-show-item" onclick="addToCart(${data.id})" value="${data.id}" id="${a}">beli</button>`)
+            a++
+          })
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+
+    function showCart(){
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3000/showCart/1',
+        success: function(resp) {
+          $('#dagangan').empty()
+          $('#dagangan').append(`<p>ini cart anda:</p><br>`)
+          resp.forEach(function(data){
+            $('#dagangan').append(`<p>${data.Item.name}</p><br><p>${data.quantity}</p><br><img src="${data.Item.picture}" alt=""><br>`)
+          })
+          $('#dagangan').append(`<button type="button" name="checkout" onclick="checkout()">checkout!</button>`)
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+
+    function addToCart(id){
+      $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/transaksi',
+        data:{customer:1,item:id},
+        success: function(resp) {
+          showCart()
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+    function checkout(){
+      $.ajax({
+        type: 'PUT',
+        url: 'http://localhost:3000/checkout',
+        data:{cus:1},
+        success: function(resp) {
+          showCart()
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+
+  </script>
+</html>
