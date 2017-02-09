@@ -83,16 +83,20 @@
             }
         }
 
-        function validateCustomerRegister(){
+        function validateCustomerRegister() {
             if ($("#customersname").val() == "" || $("#address").val() == "" || $("#phone").val() == "") {
                 alert("Lengkapi Form Pembelian");
                 return false;
-            }else{
-              return true;
+            } else {
+                return true;
             }
         }
 
-        function checkOutProducts(IdProductsList, jumlahBeli){
+        function backHome() {
+            window.location.assign("http://127.0.0.1:8080/home.html")
+        }
+
+        function checkOutProducts(IdProductsList, jumlahBeli) {
             $.ajax({
                 url: "http://localhost:3000/api/products/checkOutProducts",
                 type: "PUT",
@@ -108,6 +112,7 @@
             $("#address").val('')
             $("#phone").val('')
             clearTransaction()
+            backHome()
         }
 
         function clearTransaction() {
@@ -122,54 +127,54 @@
 
 
         function saveTransaction(idCustomer) {
-          var dataProducts = []
-          var jumlahBeli = []
-          var subTotal = []
-          for (var i = 0; i < localStorage.length; i++) {
-              key = localStorage.key(i);
-              var objDataProducts = JSON.parse(localStorage.getItem(key))
-              dataProducts.push(key)
-              jumlahBeli.push(objDataProducts.jumlah)
-              subTotal.push(objDataProducts.harga)
-          }
-          $.ajax({
-              url: "http://localhost:3000/api/transactions/addNewTransactions",
-              type: "POST",
-              data: {
-                  customersId: idCustomer,
-                  totalPrice: $("#totalPrice").text(),
-                  productsList: JSON.stringify(dataProducts),
-                  jumlahBeli: JSON.stringify(jumlahBeli),
-                  subTotal: JSON.stringify(subTotal)
-              },
-              // dataType:"json",
-              success: function(result) {
-                  if(result){
-                      // console.log(result.productsList, result.jumlahBeli)
-                    checkOutProducts(result.productsList, result.jumlahBeli);
-                  }
-              }
-          });
-        }
-
-        function checkout() {
-          if(validateCustomerRegister()){
+            var dataProducts = []
+            var jumlahBeli = []
+            var subTotal = []
+            for (var i = 0; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                var objDataProducts = JSON.parse(localStorage.getItem(key))
+                dataProducts.push(key)
+                jumlahBeli.push(objDataProducts.jumlah)
+                subTotal.push(objDataProducts.harga)
+            }
             $.ajax({
-                url: "http://localhost:3000/api/customers/registerCustomers",
+                url: "http://localhost:3000/api/transactions/addNewTransactions",
                 type: "POST",
                 data: {
-                    customersname: $("#customersname").val(),
-                    address: $("#address").val(),
-                    phone:$("#phone").val()
+                    customersId: idCustomer,
+                    totalPrice: $("#totalPrice").text(),
+                    productsList: JSON.stringify(dataProducts),
+                    jumlahBeli: JSON.stringify(jumlahBeli),
+                    subTotal: JSON.stringify(subTotal)
                 },
                 // dataType:"json",
                 success: function(result) {
-                    if(result){
-                      saveTransaction(result._id)
+                    if (result) {
+                        // console.log(result.productsList, result.jumlahBeli)
+                        checkOutProducts(result.productsList, result.jumlahBeli);
                     }
                 }
             });
-          }
+        }
+
+        function checkout() {
+            if (validateCustomerRegister()) {
+                $.ajax({
+                    url: "http://localhost:3000/api/customers/registerCustomers",
+                    type: "POST",
+                    data: {
+                        customersname: $("#customersname").val(),
+                        address: $("#address").val(),
+                        phone: $("#phone").val()
+                    },
+                    // dataType:"json",
+                    success: function(result) {
+                        if (result) {
+                            saveTransaction(result._id)
+                        }
+                    }
+                });
+            }
         }
     </script>
 </body>

@@ -38,15 +38,75 @@
                     <input type="text" class="form-control" id="stock" placeholder="Stock">
                 </div>
                 <div class="form-group">
-                    <label for="uploadimg">File Input</label>
-                    <input type="file" name="uploadimg" id="uploadimg">
+                    <input class="btn btn-warning" onclick="uploadImages()" readonly="readonly" value="Upload Images" name="uploadimg" id="uploadimg">
+                    <label id="linkUrlImages">images</label>
+                    <input type="hidden" id="imageURL">
                 </div>
-                <input  type="submit" name="submit" class="btn btn-info" value="Upload Products"></input>
+                <input readonly="readonly" onclick="addProducts()" class="btn btn-info" value="Add Products"></input>
+
             </form>
-          </div>
+            <!-- <input type="filepicker" data-fp-apikey="AyJh7Qc5RPisfAmqnfBmAz" onchange="alert(event.fpfile.url)"> -->
+        </div>
     </div>
 
+    <script src="https://api.filestackapi.com/filestack.js"></script>
+    <script type="text/javascript">
+        function uploadImages() {
+            filepicker.setKey("AyJh7Qc5RPisfAmqnfBmAz");
+            filepicker.pick({
+                    mimetype: 'image/*',
+                    container: 'window',
+                    services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
+                },
+                function(Blob) {
+                    document.getElementById("linkUrlImages").innerHTML = Blob.filename
+                    linkimage(Blob.url)
+                    //{"url":"https://cdn.filestackcontent.com/31wQVyJ2REaSzZv9SkJu","filename":"images.jpg","mimetype":"image/jpeg","size":9493,"id":1,"client":"computer","isWriteable":true}
+                },
+                function(FPError) {
+                    console.log(FPError.toString());
+                });
+        }
 
+        function linkimage(inputlinkimage) {
+            $("#imageURL").val(inputlinkimage)
+        }
+
+        function validateAddProducts() {
+            if ($("#nameproducts").val() == "" || $("#description").val() == "" || $("#category").val() == "" || $("#price").val() == "" || $("#stock").val() == "" || $("#imageURL").val() == "") {
+                alert("Lengkapi Form Add Products");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function addProducts() {
+            if (validateAddProducts()) {
+                $.ajax({
+                    url: "http://localhost:3000/api/products/addProducts",
+                    type: "POST",
+                    data: {
+                        name: $("#nameproducts").val(),
+                        description: $("#description").val(),
+                        category: $("#category").val(),
+                        price: $("#price").val(),
+                        stock: $("#stock").val(),
+                        imageUrl: $("#imageURL").val(),
+                    },
+                    success: function(result) {
+                        alert("Create New Proucts Success")
+                        $("#nameproducts").val('')
+                        $("#description").val('')
+                        $("#category").val('')
+                        $("#price").val('')
+                        $("#stock").val('')
+                        $("#imageURL").val('')
+                    }
+                });
+            }
+        }
+    </script>
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 

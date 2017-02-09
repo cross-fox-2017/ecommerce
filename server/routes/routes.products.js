@@ -6,7 +6,6 @@ const products = require('../controllers/controllers.products')
 
 /* GET home page. */
 router.post('/addProducts',products.addProducts);
-
 router.get('/',products.getAllProducts);
 
 // router.post('/upload',upload.any(),function(req, res, next) {
