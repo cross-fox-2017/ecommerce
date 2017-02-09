@@ -9,13 +9,14 @@ var transactionsSchema = new Schema({
   totalPrice:Number,
   productsList:[{
     type: Schema.Types.ObjectId,
-    qty:Number,
     ref: "Products"
   }],
+  jumlahBeli:[],
+  subTotal:[]
 },{
   timestamps: true
 });
 
-let Transactions = mongoose.model('Transactions',transactionSchema)
+let Transactions = mongoose.model('Transactions',transactionsSchema)
 
 module.exports = Transactions

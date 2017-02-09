@@ -43,6 +43,7 @@
                     </tbody>
                 </table>
                 <h4 id="totalPrice" class="pull-right"></h4>
+                <h4 class="pull-right">Total : Rp.</h4>
                 <input class="btn btn-info" onclick="checkout()" readonly="readonly" value="Lanjutkan Pembayaran"></input>
             </form>
 
@@ -91,16 +92,64 @@
             }
         }
 
+        function checkOutProducts(IdProductsList, jumlahBeli){
+            $.ajax({
+                url: "http://localhost:3000/api/products/checkOutProducts",
+                type: "PUT",
+                data: {
+                    IdProductsList: JSON.stringify(IdProductsList),
+                    jumlahBeli: JSON.stringify(jumlahBeli)
+                },
+                success: function(result) {
+                    alert(result)
+                }
+            });
+            $("#customersname").val('')
+            $("#address").val('')
+            $("#phone").val('')
+            clearTransaction()
+        }
+
+        function clearTransaction() {
+            for (var i = 0; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                document.getElementById(key).innerHTML = ""
+
+            }
+            document.getElementById("totalPrice").innerHTML = ""
+            return localStorage.clear();
+        }
+
+
         function saveTransaction(idCustomer) {
           var dataProducts = []
+          var jumlahBeli = []
+          var subTotal = []
           for (var i = 0; i < localStorage.length; i++) {
               key = localStorage.key(i);
+              var objDataProducts = JSON.parse(localStorage.getItem(key))
               dataProducts.push(key)
+              jumlahBeli.push(objDataProducts.jumlah)
+              subTotal.push(objDataProducts.harga)
           }
-          console.log(dataProducts)
-          console.log($("#totalPrice").text())
-          console.log(idCustomer)
-
+          $.ajax({
+              url: "http://localhost:3000/api/transactions/addNewTransactions",
+              type: "POST",
+              data: {
+                  customersId: idCustomer,
+                  totalPrice: $("#totalPrice").text(),
+                  productsList: JSON.stringify(dataProducts),
+                  jumlahBeli: JSON.stringify(jumlahBeli),
+                  subTotal: JSON.stringify(subTotal)
+              },
+              // dataType:"json",
+              success: function(result) {
+                  if(result){
+                      // console.log(result.productsList, result.jumlahBeli)
+                    checkOutProducts(result.productsList, result.jumlahBeli);
+                  }
+              }
+          });
         }
 
         function checkout() {

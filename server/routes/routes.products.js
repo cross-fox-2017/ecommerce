@@ -13,5 +13,7 @@ router.get('/',products.getAllProducts);
 //     console.log(req.files);
 // });
 
+router.put('/checkOutProducts', products.checkOutProducts)
+
 
 module.exports = router;

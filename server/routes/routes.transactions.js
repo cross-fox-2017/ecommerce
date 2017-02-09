@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
-
+const transactions = require('../controllers/controllers.transactions')
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
+router.post('/addNewTransactions',transactions.addNewTransactions)
 
 module.exports = router;
