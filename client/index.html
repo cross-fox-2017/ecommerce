@@ -178,7 +178,7 @@
           }
           for(let i = 0; i < resp.length; i++) {
             $(`#add-item-${i+1}`).click(function () {
-              getDetails(i, resp)
+              getDetails(i)
             })
           }
         },
@@ -187,7 +187,7 @@
         }
       });
 
-      function getDetails(i, resp) {
+      function getDetails(i) {
         // assign item information to a new object called itemInfo
         let itemInfo = []
         if (localStorage.getItem(`cart-${i+1}`)) { // if cart-${i+1} not null
@@ -210,10 +210,10 @@
           })
           localStorage.setItem(`cart-${i+1}`, JSON.stringify(itemInfo))
         }
-        appendToCart(i, resp)
+        appendToCart(i)
       }
 
-      function appendToCart(i, resp) {
+      function appendToCart(i) {
         $(`#item-${i+1}`).empty()
         let cart = localStorage.getItem(`cart-${i+1}`)
         let cartParsed = JSON.parse(cart)[0];
