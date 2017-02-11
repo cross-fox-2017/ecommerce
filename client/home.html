@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>KumpulBerbagi</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/shop-homepage.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <nav class="navbar navbar-default">
+            </nav>
+        </div>
+        <!-- /.container -->
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="lead">KumpulBerbagi.com</p>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <div class="list-group">
+                    <a class="list-group-item">Cart</a>
+                    <table id="tableCart" class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Count</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listcart">
+
+                        </tbody>
+                    </table>
+                    <h4 id="totalPrice" class="pull-right"></h4>
+                    <a class="btn btn-success" href="/transactions.html">CheckOut</a>
+                    <a class="btn btn-warning" onclick="cancelTransaction()">Cancel</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row carousel-holder">
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img class="slide-image" src="https://img10.jd.id/Indonesia/nHBfsgAABgAAABAABpcvHQAB7vk.jpg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="http://www.brica.co.id/products/act/bprofeat0.png" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="https://s3.amazonaws.com/buygoon-app-static-resources-prod/categories/banners/000/000/014/original/Banner_-_Electronics.jpg?1473389006" alt="">
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="products" class="row">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <hr>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; KumpulBerbagi</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://localhost:3000/api/products",
+                type: "GET",
+                success: function(result) {
+                    var tampung = "";
+                    for (var i = 0; i < result.length; i++) {
+                        tampung +=
+                            `<div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <div class="img-container" style="background-image:url('${result[i].imageUrl}')"></div>
+                                <div class="caption">
+                                    <h4 class="pull-right">Rp. ${result[i].price}</h4>
+                                    <h4><a href="#">${result[i].name}</a></h1>
+                                    <p>${result[i].description}</p>
+                                    <h4 class="pull-right">${result[i].stock} pcs</h4>
+                                    <button class="btn btn-info" onclick="addCart('${result[i]._id}','${result[i].name}','${result[i].price}','${result[i].stock}')">Add To Cart</button>
+                                    <input id="idProducts" type="hidden" value="${result[i]._id}">
+                                </div>
+                                <br>
+                            </div>
+                        </div>`
+                    }
+                    $("#products").append(tampung)
+                }
+            });
+        })
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        for (var i = 0; i < localStorage.length; i++) {
+            key = localStorage.key(i);
+            var dataBarang = JSON.parse(localStorage.getItem(key))
+            var listproducts =
+                ` <tr id=${key}>
+                                    <td>${dataBarang.nama}</td>
+                                    <td>${dataBarang.jumlah}</td>
+                                    <td class="hargaProducts">${dataBarang.harga}</td>
+                                  </tr>`
+            $("#listcart").prepend(listproducts)
+        }
+        totalAll()
+      })
+        function cancelTransaction() {
+            for (var i = 0; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                document.getElementById(key).innerHTML = ""
+
+            }
+            document.getElementById("totalPrice").innerHTML = ""
+            return localStorage.clear();
+        }
+
+
+        function totalAll() {
+              var tds = document.getElementById('tableCart').getElementsByTagName('td');
+              var sum = 0;
+              for(var i = 0; i < tds.length; i ++) {
+                  if(tds[i].className == 'hargaProducts') {
+                      sum += parseInt(tds[i].innerHTML);
+                  }
+              }
+              if(sum!=0){
+                document.getElementById('totalPrice').innerHTML = sum
+              }
+        }
+
+        function addCart(id, name, price, stock) {
+            if (localStorage.getItem(id)) {
+                var dataBarang = JSON.parse(localStorage.getItem(id))
+                var jumlahBarang = dataBarang.jumlah + 1
+                var totalHarga = dataBarang.harga + Number(price)
+                var value = {
+                    "nama": name,
+                    "jumlah": jumlahBarang,
+                    "harga": totalHarga
+                }
+                localStorage.setItem(id, JSON.stringify(value));
+                var listproducts =
+                    ` <tr id=${id}>
+                                        <td>${name}</td>
+                                        <td>${jumlahBarang}</td>
+                                        <td class="hargaProducts">${totalHarga}</td>
+                                      </tr>`
+                document.getElementById(id).innerHTML = listproducts
+            } else {
+                var value = {
+                    "nama":name,
+                    "jumlah": 1,
+                    "harga": Number(price)
+                }
+                localStorage.setItem(id, JSON.stringify(value));
+                var listproducts =
+                    ` <tr id=${id}>
+                                        <td>${name}</td>
+                                        <td>1</td>
+                                        <td class="hargaProducts">${price}</td>
+                                      </tr>`
+                $("#listcart").prepend(listproducts)
+            }
+          totalAll()
+        }
+    </script>
+</body>
+
+</html>

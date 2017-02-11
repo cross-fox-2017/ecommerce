@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>KumpulBerbagi</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/shop-homepage.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form>
+                <div class="form-group">
+                    <label for="nameproducts">Products</label>
+                    <input type="text" class="form-control" id="nameproducts" placeholder="Products">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea type="text" class="form-control" id="description" placeholder="Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" id="category" placeholder="Category">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="text" class="form-control" id="price" placeholder="Price">
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock</label>
+                    <input type="text" class="form-control" id="stock" placeholder="Stock">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-warning" onclick="uploadImages()" readonly="readonly" value="Upload Images" name="uploadimg" id="uploadimg">
+                    <label id="linkUrlImages">images</label>
+                    <input type="hidden" id="imageURL">
+                </div>
+                <input readonly="readonly" onclick="addProducts()" class="btn btn-info" value="Add Products"></input>
+
+            </form>
+            <!-- <input type="filepicker" data-fp-apikey="AyJh7Qc5RPisfAmqnfBmAz" onchange="alert(event.fpfile.url)"> -->
+        </div>
+    </div>
+
+    <script src="https://api.filestackapi.com/filestack.js"></script>
+    <script type="text/javascript">
+        function uploadImages() {
+            filepicker.setKey("AyJh7Qc5RPisfAmqnfBmAz");
+            filepicker.pick({
+                    mimetype: 'image/*',
+                    container: 'window',
+                    services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
+                },
+                function(Blob) {
+                    document.getElementById("linkUrlImages").innerHTML = Blob.filename
+                    linkimage(Blob.url)
+                    //{"url":"https://cdn.filestackcontent.com/31wQVyJ2REaSzZv9SkJu","filename":"images.jpg","mimetype":"image/jpeg","size":9493,"id":1,"client":"computer","isWriteable":true}
+                },
+                function(FPError) {
+                    console.log(FPError.toString());
+                });
+        }
+
+        function linkimage(inputlinkimage) {
+            $("#imageURL").val(inputlinkimage)
+        }
+
+        function validateAddProducts() {
+            if ($("#nameproducts").val() == "" || $("#description").val() == "" || $("#category").val() == "" || $("#price").val() == "" || $("#stock").val() == "" || $("#imageURL").val() == "") {
+                alert("Lengkapi Form Add Products");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function addProducts() {
+            if (validateAddProducts()) {
+                $.ajax({
+                    url: "http://localhost:3000/api/products/addProducts",
+                    type: "POST",
+                    data: {
+                        name: $("#nameproducts").val(),
+                        description: $("#description").val(),
+                        category: $("#category").val(),
+                        price: $("#price").val(),
+                        stock: $("#stock").val(),
+                        imageUrl: $("#imageURL").val(),
+                    },
+                    success: function(result) {
+                        alert("Create New Proucts Success")
+                        $("#nameproducts").val('')
+                        $("#description").val('')
+                        $("#category").val('')
+                        $("#price").val('')
+                        $("#stock").val('')
+                        $("#imageURL").val('')
+                    }
+                });
+            }
+        }
+    </script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

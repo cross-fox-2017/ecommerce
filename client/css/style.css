@@ -1,0 +1,8 @@
+.thumbnail{
+  overflow: hidden;
+}
+.thumbnail .img-container{
+  height: 205px;
+  width: 320px;
+  background-size: cover;
+}
