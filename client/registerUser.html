@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>Belanja Yuks</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="http://127.0.0.1:8080/home.html">Home</a></li>
+            <li role="presentation" class="active"><a href="http://127.0.0.1:8080/registeruser.html">Register</a></li>
+            <li role="presentation"><a href="">Shopping</a></li>
+          </ul>
+        </nav>
+      </div>
+    <div class="jumbotron">
+      <h1>Mau belanja ?? daftar dulu yuks ....</h1>
+    </div>
+    <form class="form-horizontal">
+    <div class="form-group">
+    <label class="control-label col-sm-1" for="name">Name</label>
+    <div class="col-sm-10">
+    <input type="text" class="form-control" id="name" placeholder="Enter name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-1" for="memberid">MemberId</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memberid" placeholder="Enter memberid">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-1" for="memberid">Address</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="address" placeholder="Enter address">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-1" for="memberid">Zipcode</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="zipcode" placeholder="Enter zipcode">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-1" for="memberid">Phone</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="phone" placeholder="Enter phone">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-1 col-sm-1">
+      <button type="submit"class="btn btn-default" onclick="daftar()">Daftar</button>
+    </div>
+  </div>
+</form>
+      <footer class="footer">
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+    </div>
+
+    <script>
+      function daftar(){
+          $.ajax({
+              url: "http://localhost:3000/customer",
+              method:"POST",
+              data:{
+                      name:$('#name').val(),
+                      memberid:$('#memberid').val(),
+                      address:$('#address').val(),
+                      zipcode:$('#zipcode').val(),
+                      phone:$('#phone').val()
+                   },
+              success: function(result) {
+                console.log(result);
+                window.location.href = "http://127.0.0.1:8080/item.html";
+              }
+          });
+      }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.js"integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+  </body>
+</html>
