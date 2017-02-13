@@ -11,184 +11,126 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
 </head>
-<body>
+<body onload=getItems()>
   <nav class="background-color-gradient-green navbar-to-front" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo fancy-text">Qommerce</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#"><i class="material-icons">exit_to_app</i></a></li>
+        <li><a onclick="checkout()"><i class="material-icons">exit_to_app</i></a></li>
       </ul>
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#"><i class="material-icons">exit_to_app</i>Checkout</a></li>
+        <li><a onclick="checkout()"><i class="material-icons">exit_to_app</i>Checkout</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
   <div class="row remove-margin-bottom">
-    <div class="col s12 m9 l9">
-    <h5 class="valign center fancy-text">Pick Your Items</h5>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m3 l3">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col s12 m3 l3 background-color-cart margin-top-cart" style="overflow-y:auto">
-      <h5 class="valign center fancy-text">Your Cart</h5>
-      <div class="col s12 m12 l12">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">remove_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m12 l12">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">remove_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m12 l12">
-        <div class="card">
-          <div class="card-image">
-            <img src="http://placehold.it/480x320">
-            <span class="card-title">Sepeda Gunung</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">remove_shopping_cart</i></a>
-          </div>
-          <div class="card-content">
-            <p>Harga: 50000</p>
-            <p>Stock: 100</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="items" class="col s12 m9 l9">
+      <h5 class="valign center fancy-text">Pick Your Items</h5>
 
+    </div>
+    <div id="carts" class="col s12 m3 l3 background-color-cart margin-top-cart">
+      <h5 class="valign center fancy-text">Your Cart</h5>
+
+    </div>
   </div>
 
   <footer class="page-footer background-color-gradient-green">
     <div class="footer-copyright">
       <div class="container">
-      Copyright Muhammad Iqbal<a class="orange-text text-lighten-3">2017</a>
+        Copyright Muhammad Iqbal <a class="orange-text text-lighten-3">2017</a>
       </div>
     </div>
   </footer>
 
 
   <!--  Scripts-->
+  <script type="text/javascript">
+    window.localStorage.clear();
+  </script>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script type="text/javascript">
+  function getItems(){
+    $.ajax({
+      url: "http://localhost:3000/api/item/all",
+      type: "GET",
+      success: function(results) {
+        results.forEach(function(data){
+          $('#items').append(`
+          <div id = "${data._id}" class="col s12 m3 l3">
+            <div class="card">
+              <div class="card-image">
+                <img src="${data.picture}">
+                <span class="card-title">${data.name}</span>
+                <a class="btn-floating halfway-fab waves-effect waves-light green on" onclick="addToCart('${data._id}','${data.picture}','${data.name}','${data.price}')"><i class="material-icons">add_shopping_cart</i></a>
+              </div>
+              <div class="card-content">
+                <p>Harga: ${data.price}</p>
+                <p>Stock: ${data.quantity}</p>
+              </div>
+            </div>
+          </div>`)
+        })
+      }
+    })
+  }
 
-  </body>
+  function addToCart(id,pic,name,price) {
+    let item;
+    if(localStorage.getItem(id)){
+      let barang = JSON.parse(localStorage.getItem(id))
+      barang.qty ++
+      item = {
+        "id": "cart"+id,
+        "pic": pic,
+        "name": name,
+        "price": price,
+        "qty": barang.qty,
+        "total": barang.qty * price
+      }
+      localStorage.setItem(id, JSON.stringify(item))
+      $(`#${item.id}`).html(`
+          <div class="card">
+            <div class="card-image">
+              <img src="${item.pic}">
+              <span class="card-title">${item.name}</span>
+            </div>
+            <div class="card-content">
+              <p>Harga: ${item.total}</p>
+              <p>Qty: ${item.qty}</p>
+            </div>
+          </div>`)
+    }else {
+      item = {
+        "id": "cart"+id,
+        "pic": pic,
+        "name": name,
+        "price": price,
+        "qty": 1,
+        "total": price
+      }
+      localStorage.setItem(id, JSON.stringify(item))
+      $('#carts').append(`
+        <div id=${item.id} class="col s12">
+          <div class="card">
+            <div class="card-image">
+              <img src="${item.pic}">
+              <span class="card-title">${item.name}</span>
+            </div>
+            <div class="card-content">
+              <p>Harga: ${item.total}</p>
+              <p>Qty: ${item.qty}</p>
+            </div>
+          </div>
+        </div>`)
+    }
+  }
+
+  function checkout(id) {
+    let barang = JSON.parse(localStorage.getItem(id))
+    console.log(barang);
+  }
+  </script>
+</body>
 </html>
