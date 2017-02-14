@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="materialize.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <title>Jualan Gadungan</title>
+  </head>
+  <body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><b>Harvest Sun<b></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#">Navbar Link</a></li>
+          </ul>
+
+          <ul id="nav-mobile" class="side-nav">
+            <li><a href="#">Navbar Link</a></li>
+          </ul>
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+      </nav>
+
+
+        <div class="container">
+          <div id="items" class="row">
+
+          </div>
+        </div>
+
+      <div class="container">
+        <h4>Your cart:</h4>
+        <div id="cart" class="row">
+
+      </div>
+    </div>
+      <footer class="page-footer orange">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+            </div>
+            <div class="col l3 s12">
+              <h5 class="white-text">Settings</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Link 1</a></li>
+                <li><a class="white-text" href="#!">Link 2</a></li>
+                <li><a class="white-text" href="#!">Link 3</a></li>
+                <li><a class="white-text" href="#!">Link 4</a></li>
+              </ul>
+            </div>
+            <div class="col l3 s12">
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Link 1</a></li>
+                <li><a class="white-text" href="#!">Link 2</a></li>
+                <li><a class="white-text" href="#!">Link 3</a></li>
+                <li><a class="white-text" href="#!">Link 4</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+          Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+          </div>
+        </div>
+      </footer>
+
+      </div>
+
+    </div>
+
+   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
+
+   </script>
+  </body>
+  <script>
+
+  $(document).ready(function(){
+    showItem()
+    showCart()
+  })
+    function showItem(){
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3000/items',
+        success: function(resp) {
+            $('#items').empty()
+            var a=0;
+          resp.forEach(function(data){
+            $('#items').append(`
+                          <div class="col s12 m4">
+                            <div class="card">
+                              <div class="card-image">
+                                <img src="${data.picture}">
+                                <span class="card-title">${data.name}</span>
+                              </div>
+                              <div class="card-content">
+                                <p>stok tersedia: ${data.quantity}</p>
+                              </div>
+                              <div class="card-action">
+                                <button type="button" name="button-show-item" onclick="addToCart(${data.id})" value="${data.id}" id="${a}">beli</button>
+                              </div>
+                            </div>
+                          </div>
+                      `)
+            a++
+          })
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+
+    function showCart(){
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3000/showCart/1',
+        success: function(resp) {
+            $('#cart').empty()
+          resp.forEach(function(data){
+            $('#cart').append(`          <div class="col s12 m4">
+                        <div class="card">
+                          <div class="card-image">
+                            <img src="${data.Item.picture}">
+                            <span class="card-title">${data.Item.name}</span>
+                          </div>
+                          <div class="card-content">
+                            <p>jumlah pembelian: ${data.quantity}</p>
+                          </div>
+                          <div class="card-action">
+                          </div>
+                        </div>
+                      </div>`)
+          })
+          $('#cart').append(`<div><button type="button" name="checkout" onclick="checkout()">checkout!</button></div>`)
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+
+    function addToCart(id){
+      $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/transaksi',
+        data:{customer:1,item:id},
+        success: function(resp) {
+          showCart()
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+    function checkout(){
+      $.ajax({
+        type: 'PUT',
+        url: 'http://localhost:3000/checkout',
+        data:{cus:1},
+        success: function(resp) {
+        window.location.reload()
+
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+
+  </script>
+</html>
