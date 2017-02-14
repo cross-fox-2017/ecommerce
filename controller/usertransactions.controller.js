@@ -42,13 +42,12 @@ module.exports = {
         cart.forEach(function(barang){
           barang.update({where:{id:barang.id},status:'done'}).then(function(y){
             db.Item.findOne({where:{id:y.ItemId}}).then(function(x){
-              x.updateAttributes({quantity:x.quantity-y.quantity})
+              x.update({quantity:x.quantity-y.quantity})
             })
           })
 
 
         })
-
         res.send("checkout sukses terimakasih")
     })
   },

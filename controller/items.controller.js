@@ -7,7 +7,7 @@ module.exports = {
     })
   },
   show: function(req,res){
-    Items.findAll().then(function(yeah){
+    Items.findAll({}).then(function(yeah){
       res.send(yeah)
     })
   }
