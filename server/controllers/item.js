@@ -19,7 +19,7 @@ module.exports = {
   },
   updateQuantity: function(req,res) {
     Item.find({_id: req.body.id},{
-      quantity: req.body.quantity,
+      quantity: quantity - req.body.quantity,
       updatedAt: new Date()
     },{new: true}).then(function(data){
       res.send(data)

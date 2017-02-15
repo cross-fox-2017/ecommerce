@@ -7,4 +7,6 @@ router.get('/item/all', controllers.getAllItems);
 
 router.post('/item/new', controllers.newItem);
 
+router.post('/item/update', controllers.updateQuantity);
+
 module.exports = router;

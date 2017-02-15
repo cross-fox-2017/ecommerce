@@ -11,14 +11,14 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
 </head>
-<body onload=getItems()>
+<body onload>
   <nav class="background-color-gradient-green navbar-to-front" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo fancy-text">Qommerce</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a onclick="checkout()"><i class="material-icons">exit_to_app</i></a></li>
+      <ul id="nav" class="right hide-on-med-and-down">
+
       </ul>
       <ul id="nav-mobile" class="side-nav">
-        <li><a onclick="checkout()"><i class="material-icons">exit_to_app</i>Checkout</a></li>
+
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -51,6 +51,9 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script type="text/javascript">
+  $( document ).ready(function() {
+    getItems();
+  });
   function getItems(){
     $.ajax({
       url: "http://localhost:3000/api/item/all",
@@ -67,7 +70,7 @@
               </div>
               <div class="card-content">
                 <p>Harga: ${data.price}</p>
-                <p>Stock: ${data.quantity}</p>
+                <p id="stock">Stock: ${data.quantity}</p>
               </div>
             </div>
           </div>`)
@@ -120,16 +123,30 @@
             </div>
             <div class="card-content">
               <p>Harga: ${item.total}</p>
-              <p>Qty: ${item.qty}</p>
+              <p id="qty">Qty: ${item.qty}</p>
             </div>
           </div>
         </div>`)
     }
+    $('#nav').append(`<li><a onclick="checkout(${item.id},${item.qty})"><i class="material-icons">exit_to_app</i></a></li>`)
+    $('#nav-mobile').append(`<li><a onclick="checkout(${item.id},${item.qty})"><i class="material-icons">exit_to_app</i>Checkout</a></li>`)
   }
 
-  function checkout(id) {
-    let barang = JSON.parse(localStorage.getItem(id))
-    console.log(barang);
+  function checkout(id,qty) {
+    let qty = JSON.parse(localStorage.getItem(id)).qty
+    $.ajax({
+      url: "http://localhost:3000/api/item/update",
+      type: "PUT",
+      data: {
+        quantity: qty,
+        updatedAt: new Date()
+      },
+      success: function(results) {
+        $('#cart').empty()
+        $('#items').empty()
+        getItems()
+      }
+    })
   }
   </script>
 </body>
