@@ -8,7 +8,7 @@ module.exports = {
       address: req.body.address
     })
     .then(function(custom){
-      res.json(custom)
+      res.send(custom)
     })
     .catch(function(err){
       res.json('silahkan isi data dengan lengkap')

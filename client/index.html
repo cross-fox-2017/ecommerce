@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>ecommerce</title>
+    <link rel="stylesheet" type="text/css" href=https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.css>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="ui container">
+    <div class="ui grid">
+      <!-- batas kiri -->
+      <!-- <div class="two wide column"></div> -->
+      <!-- batas kiri -->
+      <div class="twelve wide column">
+        <div class="row">
+          <div class="ui grid">
+            <!-- <div id="products" class="four wide column row"></div> -->
+            <div class="four wide column">
+              <!-- <div class="row">
+                <img src="http://lorempixel.com/output/food-q-c-640-480-4.jpg" alt="">
+              </div> -->
+              <div class="ui card">
+                <a class="image" href="#">
+                  <img src="http://lorempixel.com/output/food-q-c-640-480-4.jpg">
+                </a>
+                <div class="content">
+                  <a class="header" href="#">Nama makanan</a>
+                  <div class="meta">
+                    <a>harga</a>
+                    <p>deskripsi</p>
+                    <p>stok</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="four wide column"></div> -->
+            <!-- <div class="four wide column"></div> -->
+          </div>
+        </div>
+        <!-- <div id="products" class="row">
+        </div> -->
+      </div>
+      <div class="four wide column">
+        <div class="container">
+          <div class="row">
+          </div>
+          <table id="tableCart" class="table ui red">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody id="listcart">
+              <!-- isi dari item -->
+            </tbody>
+            <tbody>
+            <tr>
+              <td><h4>Total</h4></td>
+              <td></td>
+              <td><h4 id="totalPrice"></h4></td>
+            </tr>
+            </tbody>
+
+          </table>
+
+          <a class="ui primary button" href="/transactions.html"> CheckOut </a>
+          <a class="ui red button" onclick="cancelTransaction()"> Cancel </a>
+        </div>
+      </div>
+      <!-- batas kanan -->
+      <!-- <div class="two wide column"></div> -->
+      <!-- batas kanan -->
+    </div>
+  </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:3000/items",
+                success: function(result) {
+                    var wrapper = "";
+                    for (var i = 0; i < result.length; i++) {
+                        wrapper +=
+                            `<div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="${result[i].imageUrl}" alt="">
+                                <div class="caption">
+                                    <h4 class="pull-right">Rp. ${result[i].price}</h4>
+                                    <h4><a href="#">${result[i].name}</a></h1>
+                                    <p>${result[i].description}</p>
+                                    <h4 class="pull-right">${result[i].stock} pcs</h4>
+                                    <button class="btn btn-info" onclick="addCart('${result[i]._id}','${result[i].name}','${result[i].price}','${result[i].stock}')">Add To Cart</button>
+                                    <input id="idProducts" type="hidden" value="${result[i]._id}">
+                                </div>
+                                <br>
+                            </div>
+                        </div>`
+                    }
+                    $("#products").html(wrapper)
+                }
+            });
+        })
+    </script>
+
+    <script>
+
+      function cancelTransaction() {
+        for (var i = 0; i < localStorage.length; i++) {
+          key = localStorage.key(i);
+          document.getElementById(key).innerHTML = ""
+        }
+        document.getElementById("totalPrice").innerHTML = ""
+        return localStorage.clear();
+      }
+
+
+      function totalAll() {
+            var tds = document.getElementById('tableCart').getElementsByTagName('td');
+            var sum = 0;
+            for(var i = 0; i < tds.length; i ++) {
+                if(tds[i].className == 'hargaProducts') {
+                    sum += parseInt(tds[i].innerHTML);
+                }
+            }
+            if(sum!=0){
+              document.getElementById('totalPrice').innerHTML = sum
+            }
+      }
+
+      function addCart(id, name, price, stock) {
+          if (localStorage.getItem(id)) {
+              var dataBarang = JSON.parse(localStorage.getItem(id))
+              var jumlahBarang = dataBarang.jumlah + 1
+              var totalHarga = dataBarang.harga + Number(price)
+              var value = {
+                  "nama": name,
+                  "jumlah": jumlahBarang,
+                  "harga": totalHarga
+              }
+              localStorage.setItem(id, JSON.stringify(value));
+              var listproducts =
+                  ` <tr id=${id}>
+                      <td>${name}</td>
+                      <td>${jumlahBarang}</td>
+                      <td class="hargaProducts">${totalHarga}</td>
+                    </tr>`
+              document.getElementById(id).innerHTML = listproducts
+          } else {
+              var value = {
+                  "nama":name,
+                  "jumlah": 1,
+                  "harga": Number(price)
+              }
+              localStorage.setItem(id, JSON.stringify(value));
+              var listproducts =
+                  ` <tr id=${id}>
+                      <td>${name}</td>
+                      <td>1</td>
+                      <td class="hargaProducts">${price}</td>
+                    </tr>`
+              $("#listcart").prepend(listproducts)
+          }
+        totalAll()
+      }
+
+      $(document).ready(function() {
+        for (var i = 0; i < localStorage.length; i++) {
+            key = localStorage.key(i);
+            var dataBarang = JSON.parse(localStorage.getItem(key))
+            var listproducts =
+                ` <tr id=${key}>
+                                    <td>${dataBarang.nama}</td>
+                                    <td>${dataBarang.jumlah}</td>
+                                    <td class="hargaProducts">${dataBarang.harga}</td>
+                                  </tr>`
+            $("#listcart").prepend(listproducts)
+        }
+        totalAll()
+      })
+    </script>
+</body>
+
+</html>
