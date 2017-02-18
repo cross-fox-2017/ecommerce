@@ -1,4 +1,4 @@
-var Items = require('../models/items')
+var Items = require('../models/item')
 
 module.exports = {
 

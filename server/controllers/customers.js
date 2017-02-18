@@ -1,12 +1,11 @@
-var Customers = require('../models/customers')
+var Customers = require('../models/customer')
 
 module.exports = {
 
   addCustomers: function(req, res, next) {
     Customers.create({
       name: req.body.customersname,
-      address: req.body.address,
-      phone: req.body.phone
+      address: req.body.address
     })
     .then(function(custom){
       res.json(custom)
