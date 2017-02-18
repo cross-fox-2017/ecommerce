@@ -2,7 +2,7 @@ var Carts = require('../models/cart')
 
 module.exports = {
 
-  addCustomers: function(req, res, next) {
+  addCarts: function(req, res, next) {
     Carts.create({
       customersId: req.body.customersId,
       totalPrice: req.body.totalPrice,
