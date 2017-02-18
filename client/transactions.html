@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>ecomerce</title>
+  <link rel="stylesheet" type="text/css" href=https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.css>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="ui container margin40">
+
+          <form id="formCustomers" class="ui form">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="customersname" name="customersname" placeholder="Name">
+              <!-- <div class="form-group"> -->
+                  <label for="address">Address</label>
+                  <textarea type="text" class="form-control" id="address" name="address" placeholder="Address"></textarea>
+              <!-- </div> -->
+              <label>List Products</label>
+              <table id="tableCart" class="table ui red">
+                  <thead>
+                      <tr>
+                          <th>Name</th>
+                          <th>Count</th>
+                          <th>Price</th>
+                      </tr>
+                  </thead>
+                  <tbody id="listcart">
+
+                  </tbody>
+              </table>
+              <h4 class="pull-right">Total : Rp.</h4>
+              <h4 id="totalPrice" class="pull-right"></h4>
+              <a class="ui primary button" onclick="checkout()"> Submit </a>
+          </form>
+
+  </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            for (var i = 0; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                var dataBarang = JSON.parse(localStorage.getItem(key))
+                var listproducts =
+                    ` <tr id=${key}>
+                                  <td>${dataBarang.nama}</td>
+                                  <td>${dataBarang.jumlah}</td>
+                                  <td class="hargaProducts">${dataBarang.harga}</td>
+                                </tr>`
+                $("#listcart").prepend(listproducts)
+            }
+            totalAll()
+        })
+
+
+        function totalAll() {
+            var tds = document.getElementById('tableCart').getElementsByTagName('td');
+            var sum = 0;
+            for (var i = 0; i < tds.length; i++) {
+                if (tds[i].className == 'hargaProducts') {
+                    sum += parseInt(tds[i].innerHTML);
+                }
+            }
+            if (sum != 0) {
+                document.getElementById('totalPrice').innerHTML = sum
+            }
+        }
+
+        function validateCustomerRegister() {
+            if ($("#customersname").val() == "" || $("#address").val() == "") {
+                alert("Harap dilengkapi data anda");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function backHome() {
+            window.location.assign("http://127.0.0.1:8080/index.html")
+        }
+
+        function checkOutProducts(IdProductsList, jumlahBeli) {
+            $.ajax({
+                url: "http://localhost:3000/items",
+                type: "PUT",
+                data: {
+                    IdProductsList: JSON.stringify(IdProductsList),
+                    jumlahBeli: JSON.stringify(jumlahBeli)
+                },
+                success: function(result) {
+                    alert(result)
+                }
+            });
+            $("#customersname").val('')
+            $("#address").val('')
+            clearTransaction()
+            backHome()
+        }
+
+        function clearTransaction() {
+            for (var i = 0; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                document.getElementById(key).innerHTML = ""
+
+            }
+            document.getElementById("totalPrice").innerHTML = ""
+            return localStorage.clear();
+        }
+
+
+        function saveTransaction(idCustomer) {
+            var dataProducts = []
+            var jumlahBeli = []
+            var subTotal = []
+            for (var i = 0; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                var objDataProducts = JSON.parse(localStorage.getItem(key))
+                dataProducts.push(key)
+                jumlahBeli.push(objDataProducts.jumlah)
+                subTotal.push(objDataProducts.harga)
+            }
+            $.ajax({
+                url: "http://localhost:3000/carts",
+                type: "POST",
+                data: {
+                    customersId: idCustomer,
+                    totalPrice: $("#totalPrice").text(),
+                    productsList: JSON.stringify(dataProducts),
+                    jumlahBeli: JSON.stringify(jumlahBeli),
+                    subTotal: JSON.stringify(subTotal)
+                },
+                success: function(result) {
+                    if (result) {
+                        checkOutProducts(result.productsList, result.jumlahBeli);
+                    }
+                }
+            });
+        }
+
+        function checkout() {
+            if (validateCustomerRegister()) {
+                $.ajax({
+                    url: "http://localhost:3000/customers",
+                    type: "POST",
+                    data: {
+                        customersname: $("#customersname").val(),
+                        address: $("#address").val()
+                        // phone: $("#phone").val()
+                    },
+                    // dataType:"json",
+                    success: function(result) {
+                        if (result) {
+                            saveTransaction(result._id)
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
