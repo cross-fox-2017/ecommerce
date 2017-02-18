@@ -9,39 +9,9 @@
 </head>
 
 <body>
-  <div class="ui container">
+  <div class="ui container margin40">
     <div class="ui grid">
-      <!-- batas kiri -->
-      <!-- <div class="two wide column"></div> -->
-      <!-- batas kiri -->
-      <div class="twelve wide column">
-        <div class="row">
-          <div class="ui grid">
-            <!-- <div id="products" class="four wide column row"></div> -->
-            <div class="four wide column">
-              <!-- <div class="row">
-                <img src="http://lorempixel.com/output/food-q-c-640-480-4.jpg" alt="">
-              </div> -->
-              <div class="ui card">
-                <a class="image" href="#">
-                  <img src="http://lorempixel.com/output/food-q-c-640-480-4.jpg">
-                </a>
-                <div class="content">
-                  <a class="header" href="#">Nama makanan</a>
-                  <div class="meta">
-                    <a>harga</a>
-                    <p>deskripsi</p>
-                    <p>stok</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="four wide column"></div> -->
-            <!-- <div class="four wide column"></div> -->
-          </div>
-        </div>
-        <!-- <div id="products" class="row">
-        </div> -->
+      <div id="products" class="twelve wide column row ">
       </div>
       <div class="four wide column">
         <div class="container">
@@ -72,9 +42,6 @@
           <a class="ui red button" onclick="cancelTransaction()"> Cancel </a>
         </div>
       </div>
-      <!-- batas kanan -->
-      <!-- <div class="two wide column"></div> -->
-      <!-- batas kanan -->
     </div>
   </div>
 
@@ -90,20 +57,26 @@
                     var wrapper = "";
                     for (var i = 0; i < result.length; i++) {
                         wrapper +=
-                            `<div class="col-sm-4 col-lg-4 col-md-4">
-                            <div class="thumbnail">
-                                <img src="${result[i].imageUrl}" alt="">
-                                <div class="caption">
-                                    <h4 class="pull-right">Rp. ${result[i].price}</h4>
-                                    <h4><a href="#">${result[i].name}</a></h1>
+                          `
+                            <div id="products" class="four wide column row">
+                              <div class="ui card" style="margin-top:20px">
+                                <a class="image" href="#">
+                                  <img src="${result[i].imageUrl}">
+                                </a>
+                                <div class="content">
+                                  <a class="header" href="#">${result[i].name}</a>
+                                  <div class="meta">
+                                    <h4>Rp. ${result[i].price}</h4>
                                     <p>${result[i].description}</p>
-                                    <h4 class="pull-right">${result[i].stock} pcs</h4>
-                                    <button class="btn btn-info" onclick="addCart('${result[i]._id}','${result[i].name}','${result[i].price}','${result[i].stock}')">Add To Cart</button>
+                                    <h4>${result[i].stock} pcs</h4>
+                                    <button class="ui teal button" onclick="addCart('${result[i]._id}','${result[i].name}','${result[i].price}','${result[i].stock}')">Add To Cart</button>
                                     <input id="idProducts" type="hidden" value="${result[i]._id}">
+                                  </div>
                                 </div>
-                                <br>
+                              </div>
                             </div>
-                        </div>`
+
+                          `
                     }
                     $("#products").html(wrapper)
                 }
