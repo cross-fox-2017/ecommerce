@@ -151,10 +151,10 @@
             var dataBarang = JSON.parse(localStorage.getItem(key))
             var listproducts =
                 ` <tr id=${key}>
-                                    <td>${dataBarang.nama}</td>
-                                    <td>${dataBarang.jumlah}</td>
-                                    <td class="hargaProducts">${dataBarang.harga}</td>
-                                  </tr>`
+                  <td>${dataBarang.nama}</td>
+                  <td>${dataBarang.jumlah}</td>
+                  <td class="hargaProducts">${dataBarang.harga}</td>
+                </tr>`
             $("#listcart").prepend(listproducts)
         }
         totalAll()
