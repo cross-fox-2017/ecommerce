@@ -15,7 +15,8 @@ module.exports = {
       name        : req.body.name,
       description : req.body.description,
       price       : req.body.price,
-      stock       : req.body.stock
+      stock       : req.body.stock,
+      imageUrl    : req.body.imageUrl
     })
     .then(function(data){
       res.send({
@@ -23,7 +24,8 @@ module.exports = {
         name        : data.name,
         description : data.description,
         price       : data.price,
-        stock       : data.stock
+        stock       : data.stock,
+        imageUrl    : data.imageUrl
       })
     })
   }

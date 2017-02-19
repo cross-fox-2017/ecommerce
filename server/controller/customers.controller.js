@@ -10,20 +10,38 @@ module.exports = {
   },
 
   createCustomers : function (req, res) {
-    customers.create({
-      name        : req.body.name,
-      address     : req.body.address,
-      zipcode     : req.body.zipcode,
-      phone       : req.body.phone
+
+    console.log(req.body.username);
+    console.log(req.body.address);
+    console.log(req.body.zipcode);
+    console.log(req.body.phone);
+
+    var newCustomer = customers({
+        username    : req.body.username,
+        address     : req.body.address,
+        zipcode     : req.body.zipcode,
+        phone       : req.body.phone
     })
-    .then(function(data){
-      res.send({
-        message     : 'New Customer Has Been Created',
-        name        : data.name,
-        address     : data.address,
-        zipcode     : data.zipcode
-      })
+
+    newCustomer.save(function(err, data){
+      if (err) res.json(err)
+      res.json(data)
     })
+
+    // customers.create({
+    //   username    : req.body.username,
+    //   address     : req.body.address,
+    //   zipcode     : req.body.zipcode,
+    //   phone       : req.body.phone
+    // })
+    // .then(function(err,data){
+    //   res.send({
+    //     message     : 'New Customer Has Been Created',
+    //     username    : data.username,
+    //     address     : data.address,
+    //     zipcode     : data.zipcode
+    //   })
+    // })
   }
 
 }

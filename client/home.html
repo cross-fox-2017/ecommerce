@@ -1,0 +1,178 @@
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SHOP</title>
+
+    <!-- Compiled and minified CSS -->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">SHOP</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+        </ul>
+    </div>
+  </nav>
+
+  <div id="product-list" class="container">
+    <div class="row">
+      <div id="product-append" class="col s6 m12 l12">
+          <div class="row">
+            <!-- product here -->
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <!-- <div id="modalCheckOut" class="modal">
+
+  </div> -->
+
+    <script>
+    $(document).ready(function() {
+
+      $('.modal').modal()
+
+      $.ajax({
+        url  : "http://localhost:3000/products",
+        type : "GET",
+        success: function(result) {
+          var arrTemp = ''
+          for (var i = 0; i < result.length; i++) {
+            arrTemp += `
+            <div class="col s12 m4 l4">
+              <div class="card">
+
+                <div class="card">
+                  <div class="card-image">
+                    <img class="product-img" src="${result[i].imageUrl}">
+                  </div>
+                  <div class="card-content">
+                    <p style="color: #ef5350"class="product-name">${result[i].name}</p>
+                    <p class="stock">Stock : ${result[i].stock}</p>
+                    <p class="price">Rp ${result[i].price}</p>
+                    <br />
+                    <p>${result[i].description}</p>
+                  </div>
+                  <div class="card-action">
+                    <div class="row center">
+                      <a class="btn"onclick="addToCart('${result[i]._id}', '${result[i].name}', 1, '${result[i].price}', '${result[i].stock}')">Add to Card</a>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            `
+            var checkout = `<li><a onclick="checkout(${result})">Checkout</a></li>`
+          }
+          console.log(Object.keys(localStorage));
+          $('#nav-mobile').append(checkout)
+          $('#product-append').append(arrTemp)
+
+        }
+      })
+    })
+
+    function addToCart(id, name, qty, price, stock) {
+      if (localStorage.getItem(id)){
+
+          let barang = JSON.parse(localStorage.getItem(id))
+          barang.qty ++
+          barang.stock--
+          if (barang.stock == 0) {
+            alert('Product is out of stock')
+          }
+          else{
+            product = {
+              "id"   : id,
+              "qty"  : barang.qty,
+              "name" : name,
+              "price": price * barang.qty,
+              "stock": barang.stock--
+            }
+            localStorage.setItem(id, JSON.stringify(product))
+          }
+      }
+      else{
+        product = {
+          "id"   : id,
+          "qty"  : qty,
+          "name" : name,
+          "price": price,
+          "stock": stock - 1
+        }
+        localStorage.setItem(id, JSON.stringify(product))
+      }
+    }
+
+    function formReset() {
+      $('#form-delete').remove()
+    }
+
+    function checkout(result) {
+    var cart = Object.keys(localStorage)
+
+      var edit = `
+      <div id="form-delete">
+        <div class="modal-content">
+          <div class="form-horizontal">
+                  <div class="form-group">
+                      <label for="title" class="col-sm-2 control-label">YOUR CART</label>
+                  </div>
+
+                  <table>
+                     <thead>
+                       <tr>
+                           <th data-field="id">Name</th>
+                           <th data-field="name">Item Name</th>
+                           <th data-field="price">Item Price</th>
+                       </tr>
+                     </thead>
+
+                     <tbody>
+                       <tr>
+                         <td>Alvin</td>
+                         <td>Eclair</td>
+                         <td>$0.87</td>
+                       </tr>
+                       <tr>
+                         <td>Alan</td>
+                         <td>Jellybean</td>
+                         <td>$3.76</td>
+                       </tr>
+                       <tr>
+                         <td>Jonathan</td>
+                         <td>Lollipop</td>
+                         <td>$7.00</td>
+                       </tr>
+                     </tbody>
+                </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a id="submit-update"class="modal-action modal-close waves-effect waves-green>Submit</a>
+        </div>
+      </div>
+      `
+      $('#modalEdit').append(edit)
+    }
+
+  </script>
+
+  </body>
+
+  </html>
