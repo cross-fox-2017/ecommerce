@@ -1,0 +1,12 @@
+.product-name{
+  font-size: 20px;
+}
+
+.price{
+  font-size: 15px;
+}
+
+.product-img{
+  width: 250px;
+  height: 200px;
+}
