@@ -36,9 +36,9 @@
   </div>
 
   <!-- Modal Structure -->
-  <!-- <div id="modalCheckOut" class="modal">
+  <div id="modalCheckOut" class="modal">
 
-  </div> -->
+  </div>
 
     <script>
     $(document).ready(function() {
@@ -77,9 +77,8 @@
               </div>
             </div>
             `
-            var checkout = `<li><a onclick="checkout(${result})">Checkout</a></li>`
+            var checkout = `<li><a onclick="checkout()"" href="#modalCheckOut">Checkout</a></li>`
           }
-          console.log(Object.keys(localStorage));
           $('#nav-mobile').append(checkout)
           $('#product-append').append(arrTemp)
 
@@ -123,8 +122,34 @@
       $('#form-delete').remove()
     }
 
-    function checkout(result) {
-    var cart = Object.keys(localStorage)
+    function checkout() {
+      formReset()
+
+      barang = []
+      if (localStorage.getItem("5899cee651b69135bd3aaa4c")) {
+        barang.push(JSON.parse(localStorage.getItem("5899cee651b69135bd3aaa4c")))
+      }
+      if (localStorage.getItem("5899cb9851b69135bd3aaa4a")) {
+        barang.push(JSON.parse(localStorage.getItem("5899cb9851b69135bd3aaa4a")))
+      }
+      if (localStorage.getItem("5899cf9d51b69135bd3aaa4d")) {
+        barang.push(JSON.parse(localStorage.getItem("5899cf9d51b69135bd3aaa4d")))
+      }
+
+      var td = ''
+      var totalQty = 0
+      var totalPrice = 0
+      barang.forEach(function(x) {
+          td += `
+          <tr>
+            <td>${x.name}</td>
+            <td>${x.qty}</td>
+            <td>${x.price}</td>
+          </tr>
+          `
+          totalQty += x.qty
+          totalPrice += x.price
+        });
 
       var edit = `
       <div id="form-delete">
@@ -137,29 +162,24 @@
                   <table>
                      <thead>
                        <tr>
-                           <th data-field="id">Name</th>
-                           <th data-field="name">Item Name</th>
-                           <th data-field="price">Item Price</th>
+                           <th data-field="id">Item Name</th>
+                           <th data-field="name">Qty</th>
+                           <th data-field="price">Price</th>
                        </tr>
                      </thead>
 
                      <tbody>
-                       <tr>
-                         <td>Alvin</td>
-                         <td>Eclair</td>
-                         <td>$0.87</td>
-                       </tr>
-                       <tr>
-                         <td>Alan</td>
-                         <td>Jellybean</td>
-                         <td>$3.76</td>
-                       </tr>
-                       <tr>
-                         <td>Jonathan</td>
-                         <td>Lollipop</td>
-                         <td>$7.00</td>
-                       </tr>
+                       ${td}
+
+                       <td></td>
+                       <td></td>
+                       <td></td>
                      </tbody>
+                     <tfoot>
+                          <td><b>Total</b></td>
+                          <td><b>${totalQty}</b></td>
+                          <td><b>${totalPrice}</b></td>
+                     </tfoot>
                 </table>
           </div>
         </div>
@@ -168,7 +188,7 @@
         </div>
       </div>
       `
-      $('#modalEdit').append(edit)
+      $('#modalCheckOut').append(edit)
     }
 
   </script>
