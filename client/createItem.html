@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <style media="screen">
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Create new Item</title>
+  </head>
+
+  <div class="container">
+    <!-- form create item -->
+    <div class="row center">
+      <h3>Create Item</h3>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="input-item-name" type="text" class="validate" required>
+        <label class="active" for="item-name">Item Name</label>
+      </div>
+    </div>
+
+     <div class="row">
+       <div class="input-field col s12">
+         <textarea id="input-item-description" class="materialize-textarea" required></textarea>
+         <label for="textarea1">Item Description</label>
+       </div>
+     </div>
+
+     <div class="row">
+       <!-- price -->
+       <div class="input-field col s6">
+         <input id="input-item-price" type="number" class="validate" required>
+         <label class="active" for="item-price">Price</label>
+       </div>
+       <!-- stock -->
+       <div class="input-field col s6">
+         <input id="input-item-stock" type="number" class="validate" required>
+         <label class="active" for="item-stock">Stock</label>
+       </div>
+     </div>
+
+     <div class="row">
+       <div class="center">
+         <a class="waves-effect waves-light btn right" id="btn-create-item" onclick="createItem()">Create Item</a>
+       </div>
+     </div>
+    <!-- form create item -->
+
+    <!-- list item -->
+    <div class="row center">
+      <h3>List Item</h3>
+    </div>
+
+    <table class="bordered">
+      <thead>
+        <tr>
+            <th data-field="id">Item Name</th>
+            <th data-field="name">Description</th>
+            <th data-field="price">Item Price</th>
+            <th data-field="price">Item Stock</th>
+        </tr>
+      </thead>
+
+      <tbody id="list-item-body">
+    </table>
+    <!-- list item -->
+  </div>
+
+  <body>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <!-- script -->
+    <script type="text/javascript">
+    function resetForm(){
+      $('#input-item-name').val('');
+      $('#input-item-description').val('');
+      $('#input-item-price').val('');
+      $('#input-item-stock').val('');
+    }
+
+    $(document).ready(function(){
+      console.log("masuk");
+      /* get all item */
+      $.ajax({
+        url: "http://localhost:3000/api/items",
+        type: "GET",
+        success: function( result ) {
+          console.log(result);
+          var tmp = '';
+
+          for (var i = 0; i < result.length; i++) {
+            console.log(result[i].itemName);
+            tmp += `<tr><td>${result[i].itemName}</td><td>${result[i].description}</td><td>${result[i].price}</td><td>${result[i].stock}</td></tr>`
+          }
+
+          $('#list-item-body').append(tmp);
+        }
+      });
+      /* get all item */
+    })
+
+    function createItem(){
+      /* create item */
+      $.ajax({
+        url: "http://localhost:3000/api/items",
+        type: "POST",
+        data:{
+          itemName : $('#input-item-name').val(),
+          description : $('#input-item-description').val(),
+          price : $('#input-item-price').val(),
+          stock : $('#input-item-stock').val()
+        },
+        success: function( result ) {
+          Materialize.toast('Item successfully create', 2500)
+          $('#list-item-body').prepend(`<tr><td>${result.itemName}</td><td>${result.description}</td><td>${result.price}</td><td>${result.stock}</td></tr>`);
+          resetForm();
+        }
+      });
+      /* create item */
+    }
+
+
+    </script>
+  </body>
+</html>

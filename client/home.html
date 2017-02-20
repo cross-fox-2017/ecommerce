@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <style media="screen">
+    .btn-add-cart{
+      margin-bottom: 10px;
+    }
+    .box-list-item{
+      height: 500px;
+    }
+    .card{
+      height: 630px;
+    }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Home</title>
+  </head>
+
+  <body>
+    <!-- navbar -->
+    <nav class="orange lighten-1">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="http://127.0.0.1:8080/registerUser.html" class="brand-logo">Belanja.com</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a class="waves-effect waves-light btn" data-target="modal-cart" href="http://127.0.0.1:8080/createItem.html">Item</a></li>
+            <!-- <li>
+              <a class="waves-effect waves-light btn" data-target="modal-cart"><i class="large material-icons">shopping_cart</i></a>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- navbar -->
+
+    <div class="container">
+
+    <!-- customer info -->
+    <h4>Profile Information</h4>
+    <h6>Customer ID : <div id="customer-id" class="blue-text"></div></h6>
+    <h6>Customer Name : <div id="customer-name" class="blue-text"></div></h6>
+
+    <!-- show all item -->
+    <div class="row" id="list-items-home">
+    </div>
+
+    </div> <!-- container -->
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <!-- script -->
+    <script type="text/javascript">
+    /* ready */
+    $(document).ready(function(){
+      /* set profile */
+      document.getElementById("customer-id").innerHTML = localStorage.getItem("customerid");
+      document.getElementById("customer-name").innerHTML = localStorage.getItem("customerName");
+
+      /* setup modal */
+      $('.modal').modal();
+      /* get all item */
+      $.ajax({
+        url: "http://localhost:3000/api/items",
+        type: "GET",
+        success: function( result ) {
+          var tmp = '';
+          for (var i = 0; i < result.length; i++) {
+            tmp +=
+            `
+            <div class="col s4">
+              <div class="card">
+                <div class="card-image">
+                  <img src="http://images.clipartpanda.com/item-clipart-new_item_light_red.png" alt="" class="circle responsive-img">
+                  <span class="card-title black-text">${result[i].itemName}</span>
+                </div>
+                <div class="card-content">
+                  <p class="item-description"><b>Description :</b> ${result[i].description}</p>
+                  <p class="item-price"><b>Harga : </b> Rp.${result[i].price}</p>
+                  <p class="item-stock"><b>Stock : </b> ${result[i].stock}</p>
+                </div>
+                <div class="card-action">
+                  <button class="btn-add-cart waves-effect waves-light btn" onclick="addToCart('${result[i]._id}', '${result[i].itemName}', '${result[i].price}')">add to cart</button>
+                </div>
+              </div>
+            </div>
+            `
+          }
+          $('#list-items-home').append(tmp);
+        }
+      });
+    }) /* ready */
+
+    function addToCart(itemid, itemName, itemPrice){
+      if (localStorage.getItem(`${itemid}`)) {
+        // condition if item already exist in local storage, so we add qty
+        console.log(true);
+      }else{
+        // condition if item not exist in local storage
+        console.log(false);
+        localStorage.setItem(`${itemid}`, ` { itemid:${itemid}, qty: 1, sub: ${itemPrice}}`);
+      }
+      // localStorage.setItem("customerid", result._id);
+    }
+
+    </script>
+  </body>
+</html>

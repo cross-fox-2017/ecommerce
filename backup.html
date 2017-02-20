@@ -1,0 +1,94 @@
+// new
+<div class="col s12 m6">
+
+  <div class="card blue-grey darken-1">
+
+    <div class="card-content white-text">
+
+      <span class="card-title">Card Title</span>
+
+      <p>I am a very simple card. I am good at containing small bits of information.
+      I am convenient because I require little markup to use effectively.</p>
+
+    </div>
+
+    <div class="card-action">
+      <a href="#">This is a link</a>
+      <a href="#">This is a link</a>
+    </div>
+
+  </div>
+
+</div>
+
+// new 2
+
+<div class="col s4">
+  <div class="card">
+    <div class="card-image">
+      <img src="http://images.clipartpanda.com/item-clipart-new_item_light_red.png" alt="" class="circle responsive-img">
+      <span class="card-title">${result[i].itemName}</span>
+    </div>
+    <div class="card-content">
+      <p class="item-description">{result[i].description}</p>
+      <p class="item-price">{result[i].price}</p>
+      <p class="item-stock">{result[i].stock}</p>
+    </div>
+    <div class="card-action">
+      <button class="btn-add-cart waves-effect waves-light btn" onclick="addToCart('${result[i]._id}', '${result[i].itemName}', '{result[i].price}', '{result[i].stock}')">add to cart</button>
+    </div>
+  </div>
+</div>
+
+// old
+<div class="box-list-item col s3">
+  <div class="z-depth-2">
+    <img src="http://images.clipartpanda.com/item-clipart-new_item_light_red.png" alt="" class="circle responsive-img">
+    <div class="center">
+      <div class="" id="list-item-name">
+        <b>${result[i].itemName}</b>
+      </div>
+      <div class="" id="list-item-description">
+        <p> Description : ${result[i].description}</p>
+      </div>
+      <div class="" id="list-item-price">
+        <p>PRICE : Rp  ${result[i].price},-</p>
+      </div>
+      <div class="" id="list-item-price">
+        <p>STOCK : ${result[i].stock}</p>
+      </div>
+      <button class="btn-add-cart waves-effect waves-light btn" onclick="addToCart('${result[i]._id}')">add to cart</button>
+    </div>
+  </div>
+</div>
+
+
+/* modal */
+
+<!-- modal cart -->
+<div id="modal-cart" class="modal">
+  <div class="modal-content">
+    <table>
+      <thead>
+        <tr>
+            <th data-field="iten-name">Name</th>
+            <th data-field="qty">Qty</th>
+            <th data-field="price-each">Each Price</th>
+            <th data-field="sub-price">sub Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alvin</td>
+          <td>Eclair</td>
+          <td><input type="number" name="" value=""></td>
+          <td>100000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Checkout</a>
+  </div>
+</div>
+<!-- modal cart -->
