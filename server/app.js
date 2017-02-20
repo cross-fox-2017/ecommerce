@@ -9,6 +9,10 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+mongoose.connect('mongodb://localhost/ecommerce', function (err) {
+  if (err) throw err
+  console.log('database connected using mongoose')
+})
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
