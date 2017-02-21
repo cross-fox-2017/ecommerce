@@ -40,30 +40,25 @@
         <div class="row">
           <div class="col-md-12">
             <label for="AddtoCart">Add to Cart</label>
-            <table>
-              <tr>
-                <td></td>
-                <td></td>
-              </tr>
-            </table>
+              <ul id="carts">
+
+              </ul>
+              <ul id="checkout">
+                
+              </ul>
           </div>
         </div>
       </div>
       <div class="col-md-9">
-        <div class="row">
-          <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-              <img src="http://lorempixel.com/output/technics-q-c-640-480-6.jpg" alt="sony">
-              <div class="caption">
-                <h3>Thumbnail label</h3>
-                <p>...</p>
-                <p><a href="#" class="btn btn-default" role="button">Add to Cart</a> <a href="#" class="btn btn-select" role="button">View</a></p>
-              </div>
-            </div>
-          </div>
+        <div class="row" id="items">
         </div>
       </div>
     </div>
     </div>
+  <script type="text/javascript">
+     window.localStorage.clear();
+   </script>
+   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="/js/script.js"></script>
 </body>
 </html>
